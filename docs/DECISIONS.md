@@ -7,6 +7,7 @@
 ---
 
 <!-- newest first: YYYY-MM-DD — decision — why -->
+- 2026-09-06 — BUG (prueba mecánica, celular): la tabla de 7 columnas escondía "Clasificación del agente" fuera de pantalla; la muestra era imposible desde un teléfono. Fix: tarjetas en móvil, tabla solo en ≥640px. Redeploy.
 - 2026-09-06 — La declaración del Blueprint ("entrevistar 20 dueños") se convierte en producto: la muestra visible + formulario anónimo + tablero público — porque Business Bending exige software vivo y la entrevista ES el instrumento de la Condición 1.
 - 2026-09-06 — Persistencia en Vercel Blob (un JSON inmutable por respuesta) en vez de Supabase — porque no había credenciales de Supabase en esta Mac y los archivos inmutables evitan lecturas stale del CDN.
 - 2026-09-06 — Cero datos personales en el formulario (sin nombre/correo/teléfono) — porque elimina la necesidad de auth y RLS y honra la Condición 5; el costo es no poder dar seguimiento a un dueño: se acepta.

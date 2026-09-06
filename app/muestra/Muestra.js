@@ -34,7 +34,27 @@ export default function Muestra({ cfdis, cliente, version }) {
         </p>
       </header>
 
-      <div className="overflow-x-auto rounded-xl border border-neutral-800">
+      {/* Móvil: tarjetas (la tabla escondía la columna "Clasificación del agente" fuera de pantalla). */}
+      <ul className="space-y-3 sm:hidden">
+        {cfdis.map(c => (
+          <li key={c.id} className={`rounded-xl border p-3 text-sm ${sel.has(c.id) ? 'border-amber-300 bg-amber-300/10' : 'border-neutral-800'}`}>
+            <label className="flex items-start gap-3">
+              <input type="checkbox" aria-label={`Marcar ${c.folio} como mal clasificado`} checked={sel.has(c.id)} onChange={() => toggle(c.id)} className="mt-1 h-6 w-6 shrink-0 accent-amber-300" />
+              <div className="min-w-0 flex-1 space-y-1">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-3"><span className="font-mono font-semibold">{c.folio}</span><span className="text-neutral-400">{c.fecha}</span><span className="font-semibold">{mxn(c.monto)}</span></div>
+                <div>{c.emisor}</div>
+                <div className="font-mono text-xs text-neutral-500">{c.rfc_emisor} → {c.rfc_receptor}</div>
+                <div className="text-neutral-300">{c.concepto}</div>
+                <div className="text-xs text-neutral-400">Pago: {c.metodo} · {c.forma}</div>
+                <div className="rounded-lg bg-neutral-900 p-2"><span className="text-xs uppercase text-neutral-500">El agente dijo: </span><span className={c.agente.deducible === 'Sí' ? 'text-emerald-300' : 'text-rose-300'}>{c.agente.deducible}</span> · {c.agente.categoria}{c.agente.nota && <div className="text-xs text-neutral-500">{c.agente.nota}</div>}</div>
+                <div className="text-xs text-neutral-500">{sel.has(c.id) ? 'Marcado como MAL clasificado' : 'Toca la casilla si está mal clasificado'}</div>
+              </div>
+            </label>
+          </li>
+        ))}
+      </ul>
+
+      <div className="hidden overflow-x-auto rounded-xl border border-neutral-800 sm:block">
         <table className="w-full text-left text-sm">
           <thead className="bg-neutral-900 text-xs uppercase text-neutral-400">
             <tr><th className="p-3">¿Mal?</th><th className="p-3">Folio / fecha</th><th className="p-3">Emisor → receptor</th><th className="p-3">Concepto</th><th className="p-3 text-right">Monto</th><th className="p-3">Pago</th><th className="p-3">Clasificación del agente</th></tr>
