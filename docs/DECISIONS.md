@@ -7,6 +7,7 @@
 ---
 
 <!-- newest first: YYYY-MM-DD — decision — why -->
+- 2026-09-06 — PERSONA (Lic. Ramírez, dueño de despacho de 4): peor confusión = lo mandaban al examen de 40 min antes de dejarlo opinar, y no sabía quién estaba detrás. Fix: /decision se vuelve autosuficiente (resumen de un minuto con 3 renglones de ejemplo), tarjeta de inicio promete "dos minutos, sin examen", bloque "¿Quién hace esto?" con nombre y correo, y se quita la jerga de cara al dueño ("criterio de muerte" → "regla del piloto", sin "Vercel Blob", sin "T2 · lente MONEY"). Se deja publicada la lista de tipos de error (Condición 3) y se explica por qué. Deploy #3. Log completo: docs/PERSONA_test.md.
 - 2026-09-06 — BUG (prueba mecánica, celular): la tabla de 7 columnas escondía "Clasificación del agente" fuera de pantalla; la muestra era imposible desde un teléfono. Fix: tarjetas en móvil, tabla solo en ≥640px. Redeploy.
 - 2026-09-06 — La declaración del Blueprint ("entrevistar 20 dueños") se convierte en producto: la muestra visible + formulario anónimo + tablero público — porque Business Bending exige software vivo y la entrevista ES el instrumento de la Condición 1.
 - 2026-09-06 — Persistencia en Vercel Blob (un JSON inmutable por respuesta) en vez de Supabase — porque no había credenciales de Supabase en esta Mac y los archivos inmutables evitan lecturas stale del CDN.

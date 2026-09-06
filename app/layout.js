@@ -20,8 +20,8 @@ export default function RootLayout({ children }) {
         </header>
         <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
         <footer className="mx-auto max-w-5xl px-4 pb-10 pt-6 text-xs leading-relaxed text-neutral-500">
-          Datos 100% inventados (cliente y facturas ficticios). Clasificación del "agente" y revisión del mensaje: <b>simuladas y etiquetadas</b>, no hay IA real detrás.
-          Sin cámara, sin cuenta, sin datos personales. Rúbrica pública v0.1. Crystal Ball Studio · Semana 4 · T2 · lente MONEY.
+          Las facturas y el cliente son inventados para el ejercicio. La clasificación del sistema y la revisión del mensaje son <b>simuladas</b> (reglas, no inteligencia artificial) y así se etiquetan.
+          Sin cámara, sin cuenta, sin datos personales. Rúbrica pública v0.1. Proyecto de curso de Andrés Álvarez Morphy (Crystal Ball Studio, 2026).
         </footer>
       </body>
     </html>

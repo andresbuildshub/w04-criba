@@ -18,7 +18,8 @@ export default function Rubrica() {
           <li>Consumo en restaurante clasificado 100% deducible (solo procede el 8.5%).</li>
           <li>Inversión (activo fijo) registrada como gasto del periodo.</li>
           <li>CFDI emitido a un RFC que no es el del cliente.</li>
-        </ol></section>
+        </ol>
+        <p className="mt-2 text-sm text-neutral-400">Se publican porque la rúbrica debe ser pública (Condición 3). Saber los tipos no resuelve la muestra: hay que encontrar cuáles de los 20 folios los tienen y explicarlo. En v0.2 los folios rotan entre varios juegos de facturas.</p></section>
 
       <section><h2 className="text-xl font-semibold">Puntuación de la detección (determinista)</h2>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-neutral-300">

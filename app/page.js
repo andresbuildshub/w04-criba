@@ -19,17 +19,19 @@ export default function Home() {
         </Link>
         <Link href="/decision" className="rounded-2xl border border-neutral-800 bg-neutral-900 p-6 hover:border-amber-300">
           <h2 className="text-xl font-semibold">Soy dueño/a de despacho → dar mi decisión</h2>
-          <p className="mt-2 text-neutral-400">Vea la muestra y díganos, anónimamente, si la usaría para preseleccionar. Veinte respuestas deciden si esto sigue existiendo.</p>
+          <p className="mt-2 text-neutral-400">Dos minutos, anónimo, sin hacer el examen: un resumen de la muestra y tres preguntas. Veinte respuestas deciden si esto sigue existiendo.</p>
         </Link>
       </section>
 
       <section className="rounded-2xl border border-amber-300/30 bg-amber-300/5 p-6">
-        <h2 className="font-semibold text-amber-200">El criterio de muerte, a la vista</h2>
+        <h2 className="font-semibold text-amber-200">La regla de este piloto, a la vista</h2>
         <p className="mt-2 text-neutral-300">
           Si menos de <b>5 de 20</b> dueños de despacho dicen que preseleccionarían con esta muestra, el proyecto cambia de vacío.
           El conteo es público en el <Link href="/tablero" className="underline">tablero</Link>. Ningún candidato paga un peso antes de que un despacho diga que sí.
         </p>
       </section>
+
+      <p className="text-sm text-neutral-400">¿Quién hace esto? Andrés Álvarez Morphy, estudiante. Es un proyecto de curso (Crystal Ball Studio, semana 4) para probar una idea con despachos reales antes de cobrarle a nadie. Dudas: andres.builder@gmail.com</p>
 
       <section className="grid gap-6 text-sm text-neutral-300 sm:grid-cols-3">
         <div><h3 className="font-semibold text-neutral-100">Lo que certifica</h3><p className="mt-1">Que en esta tarea, esta persona detectó N de 4 errores y redactó un mensaje que cumple X de Y verificaciones. Nada más.</p></div>
