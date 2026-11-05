@@ -1,6 +1,7 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { registrar } from '../../lib/registrar'
 import { CFDIS, CLIENTE } from '../../lib/muestra'
 
 const EJEMPLOS = CFDIS.filter(c => [1, 2, 6].includes(c.id)).map(({ error, ...c }) => c)
@@ -16,10 +17,12 @@ export default function Decision() {
   const set = (k, v) => setF(s => ({ ...s, [k]: v }))
   const toggleC = v => setF(s => ({ ...s, cambios: s.cambios.includes(v) ? s.cambios.filter(x => x !== v) : [...s.cambios, v] }))
   const listo = f.rol && f.tamano && f.decision
+  useEffect(() => { registrar('decision_abierta', 'decision') }, [])
 
   async function enviar(e) {
     e.preventDefault(); setEstado('enviando')
     const r = await fetch('/api/respuestas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(f) })
+    if (r.ok) registrar('decision_enviada', 'decision')
     setEstado(r.ok ? 'ok' : 'error')
   }
 

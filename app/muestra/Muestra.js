@@ -1,6 +1,7 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { registrar } from '../../lib/registrar'
 
 const mxn = n => n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })
 
@@ -12,16 +13,17 @@ export default function Muestra({ cfdis, cliente, version }) {
   const [cargando, setCargando] = useState(false)
   const [copiado, setCopiado] = useState(false)
 
+  useEffect(() => { registrar('muestra_vista', 'muestra') }, [])
   const toggle = id => setSel(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
 
   async function calificar() {
     setCargando(true); setRes(null)
     try {
       const r = await fetch('/api/calificar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seleccion: [...sel], mensaje, asistencia }) })
-      setRes(await r.json())
+      setRes(await r.json()); registrar('muestra_calificada', 'muestra')
     } finally { setCargando(false) }
   }
-  async function copiar() { try { await navigator.clipboard.writeText(res.constancia); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch {} }
+  async function copiar() { try { await navigator.clipboard.writeText(res.constancia); registrar('constancia_copiada', 'muestra'); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch {} }
 
   return (
     <div className="space-y-8">
@@ -126,7 +128,8 @@ export default function Muestra({ cfdis, cliente, version }) {
           </div>
 
           <div>
-            <h3 className="font-semibold">Tu constancia acotada (es tuya, no la guardamos)</h3>
+            <h3 className="font-semibold">Tu constancia (es tuya, no la guardamos)</h3>
+            <p className="mt-1 text-sm text-neutral-400">Tu mensaje al cliente va primero: eso es lo que un despacho lee. {res.firmado ? <>Lleva el código <span className="font-mono text-amber-200">{res.codigo}</span> y un enlace para que el despacho compruebe en 30 segundos que no se editó. No guardamos ni el código ni tu resultado.</> : <>Este servidor no tiene firma configurada: la constancia sale sin código.</>}</p>
             <pre className="mt-2 whitespace-pre-wrap rounded-lg border border-neutral-800 bg-neutral-950 p-4 text-xs leading-relaxed text-neutral-200">{res.constancia}</pre>
             <div className="mt-3 flex flex-wrap gap-3">
               <button onClick={copiar} className="rounded-lg border border-amber-300 px-4 py-2 text-sm text-amber-200">{copiado ? 'Copiada ✓' : 'Copiar constancia'}</button>

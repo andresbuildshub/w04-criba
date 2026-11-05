@@ -1,8 +1,10 @@
 import Link from 'next/link'
+import Evento from './Evento'
 
 export default function Home() {
   return (
     <div className="space-y-10">
+      <Evento evento="inicio_visto" pantalla="inicio" />
       <section className="space-y-4">
         <p className="text-sm uppercase tracking-widest text-amber-300">Para una junior sin experiencia, la prueba ES el CV</p>
         <h1 className="text-4xl font-bold leading-tight sm:text-5xl">Criba: una muestra de trabajo de 40 minutos para auxiliar contable</h1>

@@ -1,3 +1,4 @@
+import Evento from '../Evento'
 import { leer, DEMO, ETIQUETAS, resumir } from '../../lib/store'
 
 export const dynamic = 'force-dynamic'
@@ -22,6 +23,7 @@ export default async function Tablero() {
   const estado = s.cumple ? 'CUMPLIDA: el piloto sigue' : s.cerrado ? 'NO CUMPLIDA: el piloto se detiene y cambia de problema' : 'PENDIENTE: faltan respuestas'
   return (
     <div className="space-y-8">
+      <Evento evento="tablero_visto" pantalla="tablero" />
       <header className="space-y-2">
         <p className="text-sm uppercase tracking-widest text-amber-300">Regla del piloto: 5 de 20</p>
         <h1 className="text-3xl font-bold">Tablero de reconocimiento</h1>
