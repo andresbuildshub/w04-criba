@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { calificarSeleccion, revisarMensaje, CFDIS, RUBRICA_VERSION, CLIENTE } from '../../../lib/muestra'
+import { firmar, cargaFirmable, haySecreto } from '../../../lib/firma'
 
 export const dynamic = 'force-dynamic'
 const ASISTENCIA = ['ninguna', 'consulte_fuentes', 'use_ia']
@@ -17,11 +18,21 @@ export async function POST(req) {
   const fecha = new Date()
   const vence = new Date(fecha); vence.setMonth(vence.getMonth() + 12)
   // Constancia ACOTADA (Condición 2): dice exactamente qué se probó, en qué condiciones, y qué NO afirma.
-  const constancia = `Constancia acotada · Criba muestra ${RUBRICA_VERSION} · ${fecha.toISOString().slice(0, 10)}\n` +
-    `Tarea: revisar 20 CFDIs (datos inventados, cliente ficticio ${CLIENTE.nombre}) clasificados por un agente simulado y detectar los 4 mal clasificados; redactar el mensaje al cliente.\n` +
-    `Resultado: identificó ${sel.aciertos.length} de 4 errores, con ${sel.falsos.length} falso(s) positivo(s). Regla v0.1: aprobado si ≥3 aciertos y ≤1 falso positivo → ${sel.aprobado ? 'APROBADO' : 'NO APROBADO'} en esta muestra.\n` +
-    `Mensaje al cliente: ${msg.cumplidos} de ${msg.total} verificaciones de texto cumplidas (revisión SIMULADA por reglas, no juicio de IA).\n` +
-    `Asistencia declarada: ${asistencia}. Aplicación remota sin supervisión. Vigencia informativa hasta ${vence.toISOString().slice(0, 10)}.\n` +
-    `Esta constancia NO afirma que la persona esté certificada, que sea apta para el puesto, que haya trabajado sin ayuda, ni predice su desempeño. Solo describe esta tarea.`
-  return NextResponse.json({ seleccion: sel, mensaje: msg, detalle, falsos, constancia, asistencia })
+  // Semana 13 (hipótesis #2 de la pelea): el MENSAJE de la candidata va arriba y el conteo abajo, porque el dueño juzga el mensaje
+  // con su propio criterio; el conteo es lo que un modelo también sacaría. Se firma el resultado, no se guarda nada.
+  const fechaISO = fecha.toISOString().slice(0, 10)
+  const campos = { fecha: fechaISO, version: RUBRICA_VERSION, aciertos: String(sel.aciertos.length), falsos: String(sel.falsos.length), cumplidos: String(msg.cumplidos), total: String(msg.total), asistencia }
+  const codigo = firmar(cargaFirmable(campos))
+  const base = (process.env.NEXT_PUBLIC_BASE_URL || 'https://w04-criba.vercel.app').replace(/\/$/, '')
+  const qs = new URLSearchParams({ c: codigo || '', f: campos.fecha, v: campos.version, a: campos.aciertos, x: campos.falsos, m: campos.cumplidos, t: campos.total, s: campos.asistencia }).toString()
+  const verificar = codigo ? `${base}/verificar?${qs}` : null
+  const mensajeLimpio = mensaje.trim() || '(sin mensaje)'
+  const constancia = `CONSTANCIA · muestra de trabajo Criba ${RUBRICA_VERSION} · ${fechaISO}${codigo ? ` · código ${codigo}` : ' · SIN CÓDIGO (servidor sin firma)'}\n\n` +
+    `LO QUE ESCRIBIÓ LA CANDIDATA AL CLIENTE (léalo usted; esto es su juicio, no el nuestro):\n«${mensajeLimpio}»\n\n` +
+    `LO QUE SE MIDIÓ: revisó 20 CFDIs (datos inventados, cliente ficticio ${CLIENTE.nombre}) clasificados por un agente simulado y marcó cuáles estaban mal. ` +
+    `Encontró ${sel.aciertos.length} de 4, con ${sel.falsos.length} marcada(s) de más. Regla v0.1: ≥3 y ≤1 → ${sel.aprobado ? 'APROBADO' : 'NO APROBADO'} en esta muestra. ` +
+    `El mensaje cumplió ${msg.cumplidos} de ${msg.total} verificaciones de texto (reglas, no IA). Ayuda declarada: ${asistencia}. Remota, sin supervisión. Vigencia informativa hasta ${vence.toISOString().slice(0, 10)}.\n\n` +
+    `LO QUE NO DICE: que esté certificada, que sea apta, que lo hizo sola, ni cómo va a trabajar. Solo describe esta tarea.\n` +
+    (verificar ? `Para comprobar que no se editó (30 segundos): ${verificar}\nEn la entrevista pídale que explique una de las cuatro facturas en voz alta.` : '')
+  return NextResponse.json({ seleccion: sel, mensaje: msg, detalle, falsos, constancia, asistencia, codigo, verificar, firmado: haySecreto() })
 }
