@@ -19,7 +19,7 @@ if (!process.argv.includes("--conv")) (async () => {
   // 2. verificar: sí / no
   if (firmado) {
     const url = (pre.match(/https?:\S+verificar\?\S+/) || [''])[0].replace('https://w04-criba.vercel.app', base);
-    await p.goto(url); ok(await p.locator('text=Sí: el código coincide').count() === 1, '/verificar dice Sí con el enlace íntegro');
+    await p.goto(url); ok(await p.locator('text=Firma válida').count() === 1, '/verificar (muestra libre) dice Firma válida con el enlace íntegro');
     await p.goto(url.replace('a=3', 'a=4')); ok(await p.locator('text=No: el código no coincide').count() === 1, '/verificar dice No con un dato editado');
     await p.goto(url.replace(/c=[A-Z2-9]{4}/, 'c=ZZZZ')); ok(await p.locator('text=No: el código no coincide').count() === 1, '/verificar dice No con el código editado');
   }
