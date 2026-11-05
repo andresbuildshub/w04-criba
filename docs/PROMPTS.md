@@ -13,3 +13,12 @@ Prompts que vale la pena guardar de este build. Materia prima del Método de la 
 ## 3. Regla que me guardo
 
 > "Para una junior sin experiencia, la prueba ES el CV" — la frase del Brain Bending que definió el producto: la muestra corre antes del CV, no después, así que la razón candidatos-por-contratación no importa y el despacho paga cero por aceptar.
+
+
+## Semana 13 — prompt de implementación (del packet al agente), 2026-11-05
+
+> Construye la semana 13 de Criba sobre el repo existente, en este orden, un commit por paso, packet primero: (1) `docs/PACKET.md` (el de la semana 4 se renombra `PACKET-w04.md`). (2) `lib/firma.js`: HMAC-SHA256 con `CONSTANCIA_SECRET` sobre `fecha|version|aciertos|falsos|cumplidos|total|asistencia` → 8 chars del alfabeto sin 0/O/1/I, formato XXXX-XXXX; `verificar(campos, codigo)` con timingSafeEqual; sin secreto → null. `lib/eventos.js`: lista cerrada de 9 eventos, `validar` rechaza nombres fuera de lista y campos extra, guarda `{evento, pantalla, dia}` SIN hora en Vercel Blob `w04-criba/eventos/DIA-evento.json`; `resumirEventos` cuenta por evento, embudos, por día. AC: 6 tests `node --test`. (3) `POST/GET /api/eventos`; `/api/calificar` firma y arma la constancia con el mensaje de la candidata ARRIBA, el conteo abajo, el enlace `/verificar?c=&f=&v=&a=&x=&m=&t=&s=`. (4) `/verificar` recalcula y muestra Sí/No + qué NO dice + qué preguntar en la entrevista; `/metrica` conteos + "lo que este log nunca hace"; `/volver` evento regreso; `registrar()` client-side con sendBeacon; eventos en inicio, muestra (vista, calificada, copiada), decision (abierta, enviada), tablero. (5) Playwright e2e a 390 px: 14 checks. Deploy tras (4) y tras el fix #1 de las sesiones.
+
+## Semana 13 — prompt de sesión de usuario (capa 2, chat fresco, solo lectura)
+
+> Ver `w13-fight/sesiones/_comun.txt` + un archivo por persona (`01-dueno-gdl.txt` … `05-egresado-unitec.txt`): rol no nombre, dispositivo, cómo llegó el link; "mi vida, no el producto" (3 min: última contratación / última postulación, segunda mejor candidata, semana seis); tarea pantalla por pantalla con tiempo; bitácora de confusiones con columna OBSERVADO/DECLARADO y severidad; compromiso que cuesta (reenviar el link delante de mí / a qué despacho y cuándo) marcado COMPROMISO REAL o DECLARADO; lo peor en una frase.
