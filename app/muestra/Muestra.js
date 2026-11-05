@@ -5,7 +5,7 @@ import { registrar } from '../../lib/registrar'
 
 const mxn = n => n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })
 
-export default function Muestra({ cfdis, cliente, version }) {
+export default function Muestra({ cfdis, cliente, version, ventana }) {
   const [sel, setSel] = useState(new Set())
   const [mensaje, setMensaje] = useState('')
   const [asistencia, setAsistencia] = useState('ninguna')
@@ -19,7 +19,7 @@ export default function Muestra({ cfdis, cliente, version }) {
   async function calificar() {
     setCargando(true); setRes(null)
     try {
-      const r = await fetch('/api/calificar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seleccion: [...sel], mensaje, asistencia }) })
+      const r = await fetch('/api/calificar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seleccion: [...sel], mensaje, asistencia, conv: ventana?.id || null }) })
       setRes(await r.json()); registrar('muestra_calificada', 'muestra')
     } finally { setCargando(false) }
   }
@@ -28,6 +28,11 @@ export default function Muestra({ cfdis, cliente, version }) {
   return (
     <div className="space-y-8">
       <header className="space-y-2">
+        {ventana && (
+          <div className="rounded-2xl border border-emerald-400/40 bg-emerald-400/5 p-4 text-sm text-neutral-200">
+            <b className="text-emerald-200">Muestra abierta por {ventana.despacho}.</b> Tienes <b>{ventana.minutos} minutos</b> desde que abriste este enlace (hasta las {new Date(ventana.fin).toLocaleTimeString('es-MX', { timeZone: 'America/Mexico_City', hour: '2-digit', minute: '2-digit' })}) y se entrega una sola vez. Se registra la hora de inicio, la de entrega y qué marcaste; <b>no</b> tu nombre, teléfono ni correo.
+          </div>
+        )}
         <p className="text-sm uppercase tracking-widest text-amber-300">Muestra de trabajo · {version}</p>
         <h1 className="text-3xl font-bold">Revisa lo que clasificó el agente</h1>
         <p className="max-w-3xl text-neutral-300">
@@ -129,10 +134,17 @@ export default function Muestra({ cfdis, cliente, version }) {
 
           <div>
             <h3 className="font-semibold">Tu constancia (es tuya, no la guardamos)</h3>
-            <p className="mt-1 text-sm text-neutral-400">Tu mensaje al cliente va primero: eso es lo que un despacho lee. {res.firmado ? <>Lleva el código <span className="font-mono text-amber-200">{res.codigo}</span> y un enlace para que el despacho compruebe en 30 segundos que no se editó. No guardamos ni el código ni tu resultado.</> : <>Este servidor no tiene firma configurada: la constancia sale sin código.</>}</p>
+            <p className="mt-1 text-sm text-neutral-400">Tu mensaje al cliente va primero: eso es lo que un despacho lee. {res.registrado ? <>Este intento quedó <b>registrado</b> con el código <span className="font-mono text-amber-200">{res.codigo}</span> (sin tu nombre): el despacho lo abre en "verificar" y ve la hora de inicio, la de entrega y qué se te fue.</> : res.firmado ? <>Lleva el código <span className="font-mono text-amber-200">{res.codigo}</span>. Cómo se comprueba sin guardar nada: el código es una firma de estos números; si alguien cambia un número, el código deja de coincidir. Lo que no puede comprobar es que lo hiciste tú sola: para eso existe la muestra abierta por el despacho.</> : <>Este servidor no tiene firma configurada: la constancia sale sin código.</>}</p>
             <pre className="mt-2 whitespace-pre-wrap rounded-lg border border-neutral-800 bg-neutral-950 p-4 text-xs leading-relaxed text-neutral-200">{res.constancia}</pre>
+            {res.corto && (
+              <div className="mt-3 rounded-lg border border-neutral-800 bg-neutral-900 p-3 text-sm">
+                <div className="text-xs uppercase text-neutral-500">Para WhatsApp (corto; el despacho abre el enlace y ve todo)</div>
+                <div className="mt-1 text-neutral-200">{res.corto}</div>
+              </div>
+            )}
             <div className="mt-3 flex flex-wrap gap-3">
-              <button onClick={copiar} className="rounded-lg border border-amber-300 px-4 py-2 text-sm text-amber-200">{copiado ? 'Copiada ✓' : 'Copiar constancia'}</button>
+              {res.corto && <a href={`https://wa.me/?text=${encodeURIComponent(res.corto)}`} target="_blank" rel="noreferrer" onClick={() => registrar('constancia_copiada', 'muestra')} className="rounded-lg bg-amber-300 px-4 py-2 text-sm font-semibold text-neutral-950">Mandar por WhatsApp</a>}
+              <button onClick={copiar} className="rounded-lg border border-amber-300 px-4 py-2 text-sm text-amber-200">{copiado ? 'Copiada ✓' : 'Copiar constancia completa'}</button>
               <Link href="/decision" className="rounded-lg border border-neutral-700 px-4 py-2 text-sm text-neutral-300">¿Eres dueño de despacho? Da tu decisión →</Link>
             </div>
           </div>

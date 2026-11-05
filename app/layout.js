@@ -6,7 +6,7 @@ export const metadata = {
   description: 'Muestra de trabajo para auxiliar contable junior + bitácora de reconocimiento de despachos. Crystal Ball Studio, semana 4.',
 }
 
-const NAV = [['/', 'Inicio'], ['/muestra', 'Muestra'], ['/decision', 'Soy despacho'], ['/tablero', 'Tablero'], ['/rubrica', 'Rúbrica'], ['/metrica', 'Métrica']]
+const NAV = [['/', 'Inicio'], ['/muestra', 'Muestra'], ['/decision', 'Soy despacho'], ['/convocar', 'Abrir muestra'], ['/tablero', 'Tablero'], ['/rubrica', 'Rúbrica'], ['/metrica', 'Métrica']]
 
 export default function RootLayout({ children }) {
   return (
