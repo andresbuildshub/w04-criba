@@ -49,7 +49,7 @@ export async function POST(req) {
       `LO QUE SE MIDIÓ: revisó 20 facturas (inventadas, cliente ficticio ${CLIENTE.nombre}) que un sistema ya había clasificado, y marcó cuáles estaban mal. ${lineaErrores} ${aprobadoTxt} Su mensaje cumplió ${msg.cumplidos} de ${msg.total} verificaciones de texto (reglas, no IA). Ayuda declarada: ${asistencia}.\n\n` +
       `LO QUE NO DICE: que esté certificada, que sea apta, ni cómo va a trabajar. Lo que sí garantiza: una sesión de 60 minutos con el enlace del despacho, registrada.\n` +
       `Comprobar (30 segundos): ${verificar}\nEn la entrevista pídale que explique en voz alta la factura que se le fue, o una de las que encontró.`
-    corto = `Constancia Criba · ${sel.aprobado ? 'pasó' : 'no pasó'} la muestra (${sel.aciertos.length} de 4) · abierta por ${intento.despacho}, una sola sesión · código ${codigo} · compruebe aquí: ${verificar}`
+    corto = `Constancia Criba · encontró ${sel.aciertos.length} de 4 · abierta por ${intento.despacho}, una sola sesión · código ${codigo} · qué se le fue y el mensaje, aquí: ${verificar}`
   } else {
     const campos = { fecha: fechaISO, version: RUBRICA_VERSION, aciertos: String(sel.aciertos.length), falsos: String(sel.falsos.length), cumplidos: String(msg.cumplidos), total: String(msg.total), asistencia }
     codigo = firmar(cargaFirmable(campos))
@@ -60,7 +60,7 @@ export async function POST(req) {
       `LO QUE SE MIDIÓ: revisó 20 facturas (inventadas, cliente ficticio ${CLIENTE.nombre}) que un sistema ya había clasificado, y marcó cuáles estaban mal. ${lineaErrores} ${aprobadoTxt} Su mensaje cumplió ${msg.cumplidos} de ${msg.total} verificaciones de texto (reglas, no IA). Ayuda declarada: ${asistencia}. Hecha por su cuenta, sin supervisión. Vigencia informativa hasta ${vence.toISOString().slice(0, 10)}.\n\n` +
       `LO QUE NO DICE: que esté certificada, que sea apta, que lo hizo sola, ni cómo va a trabajar. Si quiere que la haga en una sola sesión con su enlace, abra una muestra en ${base}/convocar.\n` +
       (verificar ? `Comprobar que no se editó (30 segundos): ${verificar}\nEn la entrevista pídale que explique una de las cuatro facturas en voz alta.` : '')
-    corto = codigo ? `Constancia Criba (muestra libre) · ${sel.aprobado ? 'pasó' : 'no pasó'} (${sel.aciertos.length} de 4) · código ${codigo} · compruebe aquí: ${verificar}` : null
+    corto = codigo ? `Constancia Criba (muestra libre) · encontró ${sel.aciertos.length} de 4 · código ${codigo} · compruebe aquí: ${verificar}` : null
   }
   return NextResponse.json({ seleccion: sel, mensaje: msg, detalle, falsos, constancia, corto, asistencia, codigo, verificar, firmado: haySecreto(), registrado, ventanaError })
 }

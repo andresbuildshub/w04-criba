@@ -19,7 +19,7 @@ export default function Convocar() {
     if (!r.ok) { setErr(j.error || 'No se pudo crear el enlace.'); return }
     setRes(j); registrar('convocatoria_creada', 'convocar')
   }
-  const texto = res ? `Hola. Antes de la entrevista, le pido que haga esta muestra de trabajo de 40 minutos (20 facturas, 4 están mal clasificadas, me escribe qué corregir). El enlace es de un solo uso y se abre una sola vez: ${res.enlace} — Cuando termine, mándeme la constancia que le da la página. Gracias.` : ''
+  const texto = res ? `Hola. Antes de la entrevista, le pido que haga esta muestra de trabajo (20 facturas, 4 están mal clasificadas, me escribe qué corregir; toma unos 40 minutos y el enlace le da 60 desde que lo abre). Es de un solo uso: ábralo solo cuando pueda hacerla completa, de corrido: ${res.enlace} — Al terminar, mándeme el mensaje corto que le da la página. Gracias.` : ''
   async function copiar() { try { await navigator.clipboard.writeText(texto); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch {} }
 
   return (
@@ -52,7 +52,7 @@ export default function Convocar() {
           <ul className="space-y-1 text-sm text-neutral-300">
             <li>Despacho: <b>{res.despacho}</b> · enlace <span className="font-mono">{res.id}</span> · caduca {new Date(res.expira).toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })}.</li>
             <li>Cuando ella termine, le llega una constancia con un código. Ábralo en <Link href="/verificar" className="underline">verificar</Link>: ahí verá "Registrado por Criba", la hora de inicio y entrega, y qué error se le fue.</li>
-            <li>Guarde este enlace si quiere saber después si ya se abrió: <span className="font-mono text-xs">/api/convocar?id={res.id}</span></li>
+            <li>Para saber después si ya lo abrió o ya entregó, guarde este enlace (es una página normal): <a href={`/estado?id=${res.id}`} className="underline">{(typeof window !== 'undefined' ? window.location.origin : '')}/estado?id={res.id}</a>. Si cierra esta pantalla sin guardarlo, no hay forma de recuperarlo: no tenemos cuenta ni su teléfono.</li>
           </ul>
         </section>
       )}
@@ -62,6 +62,7 @@ export default function Convocar() {
         <ul className="list-disc space-y-1 pl-5">
           <li>No pide ni guarda su teléfono, su correo ni el de la candidata. El enlace lo manda usted, desde su WhatsApp.</li>
           <li>No vigila: sin cámara, sin grabación de pantalla, sin captura de teclas. Registra hora de inicio, hora de entrega y qué marcó.</li>
+          <li>La vista previa de WhatsApp no abre el enlace: los 60 minutos empiezan cuando la candidata lo abre en el navegador y ve las facturas.</li>
           <li>No garantiza que lo hizo sola. Garantiza que fue en una sola sesión de 60 minutos, con su enlace. En la entrevista, pídale que explique una de las cuatro facturas en voz alta.</li>
         </ul>
       </section>
