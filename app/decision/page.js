@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { registrar } from '../../lib/registrar'
 import { CFDIS, CLIENTE } from '../../lib/muestra'
 
-const EJEMPLOS = CFDIS.filter(c => [1, 2, 6].includes(c.id)).map(({ error, ...c }) => c)
+// Solo renglones BIEN clasificados como ejemplo: la página del dueño no puede ser el acordeón (sesión 1: "aquí está el acordeón").
+const EJEMPLOS = CFDIS.filter(c => [1, 3, 9].includes(c.id)).map(({ error, ...c }) => c)
 
 const ROL = [['dueño', 'Dueño/a del despacho'], ['gerente', 'Gerente / encargado'], ['contador_senior', 'Contador/a senior'], ['otro', 'Otro']]
 const TAM = [['1-5', '1–5 personas'], ['6-20', '6–20'], ['21-50', '21–50'], ['mas_50', 'Más de 50']]
@@ -44,7 +45,7 @@ export default function Decision() {
 
       <details className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4" open>
         <summary className="cursor-pointer font-semibold">La muestra en un minuto</summary>
-        <p className="mt-2 text-sm text-neutral-300">A la candidata le damos 20 facturas del mes de un cliente inventado ({CLIENTE.nombre}) que un sistema ya clasificó como deducible / no deducible. Cuatro clasificaciones están mal (por ejemplo: gasolina pagada en efectivo, comida de restaurante al 100%, una laptop registrada como gasto, una factura a otro RFC). Ella tiene que encontrarlas y redactarle al cliente qué corregir. Así se ven tres renglones:</p>
+        <p className="mt-2 text-sm text-neutral-300">A la candidata le damos 20 facturas del mes de un cliente inventado ({CLIENTE.nombre}) que un sistema ya clasificó como deducible / no deducible. Cuatro clasificaciones están mal (no decimos cuáles aquí: esta página la puede leer una candidata). Ella tiene que encontrarlas y redactarle al cliente qué corregir. Así se ven tres renglones bien clasificados:</p>
         <ul className="mt-3 space-y-2 text-sm">
           {EJEMPLOS.map(c => (
             <li key={c.id} className="rounded-lg border border-neutral-800 p-3">
@@ -54,7 +55,7 @@ export default function Decision() {
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-sm text-neutral-400">Al terminar, ella recibe una constancia que dice cuántos de los 4 errores encontró. Usted decidiría con eso si la entrevista o no.</p>
+        <p className="mt-3 text-sm text-neutral-400">Al terminar, ella recibe una constancia que dice cuáles de los 4 errores encontró y cuál se le fue. Si usted quiere que la haga en una sola sesión con su enlace (y no "en su casa"), <Link href="/convocar" className="underline">abra la muestra aquí</Link>: un enlace de un solo uso, sin registro.</p>
       </details>
 
       <fieldset className="space-y-2"><legend className="font-semibold">Su rol</legend>
