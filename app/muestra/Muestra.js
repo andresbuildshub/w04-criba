@@ -37,7 +37,7 @@ export default function Muestra({ cfdis, cliente, version, ventana }) {
         <h1 className="text-3xl font-bold">Revisa lo que clasificó el agente</h1>
         <p className="max-w-3xl text-neutral-300">
           Cliente ficticio: <b>{cliente.nombre}</b> ({cliente.rfc}), periodo {cliente.periodo}. Un agente <span className="rounded bg-neutral-800 px-1 text-xs">SIMULADO</span> clasificó sus 20 CFDIs.
-          <b> Exactamente 4 están mal.</b> Marca cuáles y explícale al cliente qué hay que corregir. Sin cámara, sin cuenta: nada de esto se guarda.
+          <b> Exactamente 4 están mal.</b> Marca cuáles y explícale al cliente qué hay que corregir. {ventana ? 'Sin cámara, sin cuenta: se registra solo este intento (hora de inicio, de entrega y qué marcaste), sin tu nombre.' : 'Sin cámara, sin cuenta: nada de esto se guarda.'}
         </p>
       </header>
 
@@ -133,7 +133,7 @@ export default function Muestra({ cfdis, cliente, version, ventana }) {
           </div>
 
           <div>
-            <h3 className="font-semibold">Tu constancia (es tuya, no la guardamos)</h3>
+            <h3 className="font-semibold">{res.registrado ? 'Tu constancia (el intento quedó registrado, sin tu nombre)' : 'Tu constancia (es tuya, no la guardamos)'}</h3>
             <p className="mt-1 text-sm text-neutral-400">Tu mensaje al cliente va primero: eso es lo que un despacho lee. {res.registrado ? <>Este intento quedó <b>registrado</b> con el código <span className="font-mono text-amber-200">{res.codigo}</span> (sin tu nombre): el despacho lo abre en "verificar" y ve la hora de inicio, la de entrega y qué se te fue.</> : res.firmado ? <>Lleva el código <span className="font-mono text-amber-200">{res.codigo}</span>. Cómo se comprueba sin guardar nada: el código es una firma de estos números; si alguien cambia un número, el código deja de coincidir. Lo que no puede comprobar es que lo hiciste tú sola: para eso existe la muestra abierta por el despacho.</> : <>Este servidor no tiene firma configurada: la constancia sale sin código.</>}</p>
             <pre className="mt-2 whitespace-pre-wrap rounded-lg border border-neutral-800 bg-neutral-950 p-4 text-xs leading-relaxed text-neutral-200">{res.constancia}</pre>
             {res.corto && (
