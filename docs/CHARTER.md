@@ -14,4 +14,6 @@
 5. No guarda la evidencia de la candidata sin que ella lo pida; la evidencia faltante nunca es negativa; existe ruta de corrección humana (Condición 5).
 6. **CLÁUSULA SOMBRA — la evidencia nunca se convierte en la persona:** ningún puntaje de potencial, personalidad, aptitud, empleabilidad ni "destino"; las inferencias caducan; los caminos descartados y las predicciones privadas nunca llegan al empleador (Condición 6).
 
+**Enmienda propuesta, semana 14 (a votar en la Fusión T1):** la Condición 1 pasa de "no cobra a candidatas *antes de*…" a **"la candidata nunca paga"** — ni por la muestra ni por su constancia. Paga el despacho que abre la ventana; verificar es gratis siempre.
+
 **Vista larga (3 oraciones):** si esta rebanada funciona, en tres años Criba es la constancia que una junior manda por WhatsApp antes del CV y que los despachos aceptan porque el vendor la distribuye y un Colegio la reconoce. Los muros de carga son la rúbrica pública versionada y la regla de que el canal distribuye pero nunca escribe la rúbrica. La misma mecánica (auditar la salida de un agente) se extiende al trabajo administrativo junior, la puerta formal más grande del país para alguien sin red.
