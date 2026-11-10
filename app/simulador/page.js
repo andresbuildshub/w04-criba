@@ -27,6 +27,7 @@ export default function Simulador() {
   const [guardados, setGuardados] = useState([])
   const [nombre, setNombre] = useState('')
   const [aviso, setAviso] = useState('')
+  const [borradores, setBorradores] = useState({}) // texto que la persona está escribiendo; un campo vacío NO es 0
   const r = useMemo(() => simular(v), [v])
 
   useEffect(() => {
@@ -41,6 +42,9 @@ export default function Simulador() {
 
   function cambiar(k, texto) {
     const c = CAMPOS[k]
+    setBorradores(b => ({ ...b, [k]: texto }))
+    // BUG del pase mecánico (semana 14): Number('') === 0, así que borrar el precio para reescribirlo lo volvía 0 en silencio.
+    if (String(texto).trim() === '') return
     let n = Number(String(texto).replace(',', '.'))
     if (!Number.isFinite(n)) return
     if (esPct(k)) n = n / 100
@@ -72,7 +76,7 @@ export default function Simulador() {
       </header>
 
       <section className="flex flex-wrap gap-2" aria-label="Escenarios de fábrica">
-        {PRESETS.map(p => <button key={p.nombre} onClick={() => { setV({ ...p.valores }); setAviso(`Escenario: ${p.nombre}`) }} className="rounded-full border border-neutral-700 px-3 py-1.5 text-sm hover:border-amber-300">{p.nombre}</button>)}
+        {PRESETS.map(p => <button key={p.nombre} onClick={() => { setV({ ...p.valores }); setBorradores({}); setAviso(`Escenario: ${p.nombre}`) }} className="rounded-full border border-neutral-700 px-3 py-1.5 text-sm hover:border-amber-300">{p.nombre}</button>)}
       </section>
 
       <section className="sticky top-0 z-10 grid grid-cols-2 gap-2 rounded-2xl border border-amber-300/40 bg-neutral-950/95 p-4 backdrop-blur sm:grid-cols-4" aria-live="polite">
@@ -97,9 +101,10 @@ export default function Simulador() {
                   <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${tagCls(c.tipo)}`}>{c.tipo}</span>
                 </div>
                 <div className="mt-2 flex items-center gap-2">
-                  <input id={k} type="number" inputMode="decimal" value={mostrado} min={esPct(k) ? c.min * 100 : c.min} max={esPct(k) ? c.max * 100 : c.max} step={esPct(k) ? c.paso * 100 : c.paso}
+                  <input id={k} type="number" inputMode="decimal" value={borradores[k] ?? mostrado} onBlur={() => setBorradores(b => { const { [k]: _, ...resto } = b; return resto })} min={esPct(k) ? c.min * 100 : c.min} max={esPct(k) ? c.max * 100 : c.max} step={esPct(k) ? c.paso * 100 : c.paso}
                     onChange={e => cambiar(k, e.target.value)} className="w-36 rounded-xl border border-neutral-700 bg-neutral-900 p-2 font-mono" />
                   <span className="text-sm text-neutral-400">{c.u}</span>
+                  {borradores[k] !== undefined && String(borradores[k]).trim() === '' && <span className="text-xs text-amber-200">vacío: se sigue usando {esPct(k) ? pct(v[k]) : v[k].toLocaleString('es-MX')}</span>}
                   {v[k] !== BASE[k] && <span className="text-xs text-neutral-500">(base: {esPct(k) ? pct(BASE[k]) : BASE[k].toLocaleString('es-MX')})</span>}
                 </div>
                 <p className="mt-2 text-xs text-neutral-500">{c.fuente}</p>
@@ -126,7 +131,7 @@ export default function Simulador() {
                 <li key={i} className="flex flex-wrap items-center gap-2 rounded-xl bg-neutral-900 p-3 text-sm">
                   <span className="mr-auto font-medium">{g.nombre}</span>
                   <span className="font-mono text-neutral-300">{fmt(gr.ingresoAnual)}/año</span>
-                  <button onClick={() => { setV({ ...g.valores }); setAviso(`Cargado: ${g.nombre}`) }} className="rounded-lg border border-neutral-700 px-2 py-1">Cargar</button>
+                  <button onClick={() => { setV({ ...g.valores }); setBorradores({}); setAviso(`Cargado: ${g.nombre}`) }} className="rounded-lg border border-neutral-700 px-2 py-1">Cargar</button>
                   <button onClick={() => borrar(i)} className="rounded-lg border border-neutral-700 px-2 py-1 text-neutral-400" aria-label={`Borrar ${g.nombre}`}>Borrar</button>
                 </li>
               )
