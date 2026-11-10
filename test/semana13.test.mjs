@@ -44,7 +44,7 @@ test('resumirEventos cuenta por día y arma embudos', () => {
   assert.equal(r.total, 4); assert.equal(r.conteo.muestra_vista, 2); assert.equal(r.verificaciones, 1)
   assert.equal(r.embudoCandidata[0].n, 2); assert.equal(r.embudoCandidata[1].n, 1)
   assert.equal(r.porDia[hoy].total, 4); assert.equal(r.porDia['2020-01-01'], undefined)
-  assert.equal(EVENTOS.length, 12)
+  assert.equal(EVENTOS.length, 18) // semana 14: +6 eventos de precio
 })
 test('calificación sigue determinista (regresión w04)', () => {
   assert.equal(calificarSeleccion([2, 4, 6, 1]).aprobado, true)
