@@ -20,11 +20,11 @@ export default function Home() {
           <p className="mt-2 text-neutral-400">Sin cuenta. Nada se guarda. Al final recibes una constancia acotada que es tuya: la copias y la mandas tú.</p>
         </Link>
         <Link href="/decision" className="rounded-2xl border border-neutral-800 bg-neutral-900 p-6 hover:border-amber-300">
-          <h2 className="text-xl font-semibold">Soy dueño/a de despacho → dar mi decisión</h2>
+          <h2 className="text-xl font-semibold">Soy dueño/a de despacho → solo opinar (2 min, sin abrir nada)</h2>
           <p className="mt-2 text-neutral-400">Dos minutos, anónimo, sin hacer el examen: un resumen de la muestra y tres preguntas. Veinte respuestas deciden si esto sigue existiendo.</p>
         </Link>
         <Link href="/convocar" className="rounded-2xl border border-emerald-400/40 bg-emerald-400/5 p-6 hover:border-emerald-300 sm:col-span-2">
-          <h2 className="text-xl font-semibold">Soy despacho → abrir la muestra para mi candidata</h2>
+          <h2 className="text-xl font-semibold">Soy despacho → abrir la muestra para mis finalistas</h2>
           <p className="mt-2 text-neutral-400">Un enlace de un solo uso: 24 horas para abrirlo, 60 minutos para entregar, una sola sesión. Se registra el intento sin nombre ni teléfono, y la constancia dice que se hizo con su enlace. Ya no es "en su casa, dice que sola".</p>
         </Link>
       </section>

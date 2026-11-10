@@ -34,7 +34,7 @@ export default function Convocar() {
 
       <section className="space-y-3 rounded-2xl border border-amber-300/40 bg-amber-300/5 p-5" aria-labelledby="aviso-finalistas">
         <h2 id="aviso-finalistas" className="font-semibold text-amber-200">Antes: si prueba a una sola, la compara con nadie</h2>
-        <p className="text-sm text-neutral-300">La muestra sirve para <b>comparar</b> a sus finalistas con la misma tarea. Si solo la hace una, esa es la única con errores a la vista y las demás no muestran ninguno: le perjudica tenerla.</p>
+        <p className="text-sm text-neutral-300">La muestra sirve para <b>comparar</b> a sus finalistas con la misma tarea. <b>Cada finalista necesita su propio enlace</b>: con tres finalistas, cree tres. Si solo la hace una, esa es la única con errores a la vista y las demás no muestran ninguno: le perjudica tenerla.</p>
         <p className="text-sm text-neutral-300"><b>Precio:</b> la primera ventana de esta vacante es <b>gratis</b>. De la segunda a la décima: <b>MX$490 por toda la vacante</b>, 30 días (recibo simple, sin factura todavía; se cobra a mano después de que se use la segunda). <b>No probar a ninguna cuesta MX$0.</b> <Link href="/pricing" className="underline">Ver precios</Link></p>
         <div className="grid grid-cols-2 gap-3">
           <button type="button" onClick={() => elegir('todas')} aria-pressed={eleccion === 'todas'} className={`rounded-xl border px-3 py-3 text-sm font-semibold ${eleccion === 'todas' ? 'border-amber-300 bg-amber-300 text-neutral-950' : 'border-neutral-600'}`}>Probar a todas mis finalistas</button>

@@ -64,10 +64,9 @@ export default function About() {
         {CONVERSACIONES.length === 0 ? (
           <div className="mt-2 rounded-2xl border border-amber-300/40 bg-amber-300/5 p-4 text-sm">
             <p className="font-semibold text-amber-200">PENDIENTE. Todavía no hay una conversación real registrada.</p>
-            <p className="mt-1 text-neutral-300">Las sesiones con usuarios de la semana 13 fueron <b>simuladas</b> y no cuentan aquí. Plan: cinco mensajes a socios que publicaron una vacante de auxiliar contable esta semana; llamada el jueves 12 de noviembre. Regla escrita antes de preguntar:</p>
-            <ol className="mt-2 list-decimal space-y-1 pl-5 text-neutral-300">{REGLA.guion.map(g => <li key={g}>{g}</li>)}</ol>
+            <p className="mt-1 text-neutral-300">Las sesiones con usuarios de la semana 13 fueron <b>simuladas</b> y no cuentan aquí. Plan: preguntarle a socios de despacho con una vacante abierta esta semana si pagarían MX$490. Cada conversación se registra con uno de tres resultados:</p>
             <ul className="mt-2 space-y-1 text-neutral-300">{REGLA.resultados.map(([n, d]) => <li key={n}><b>{n}</b>: {d}</li>)}</ul>
-            <ul className="mt-2 space-y-1 text-xs text-neutral-400">{REGLA.cambios.map(c => <li key={c}>→ {c}</li>)}</ul>
+            <p className="mt-2 text-xs text-neutral-400">La regla completa (guion y qué cambia en el precio según cada respuesta) se escribió antes de la primera conversación y está fechada en el repositorio: <a href="https://github.com/andresbuildshub/w04-criba/blob/main/lib/conversaciones.js" className="underline">lib/conversaciones.js</a>. No va en esta página: quien está decidiendo si paga no tiene por qué leer el experimento.</p>
           </div>
         ) : (
           <ul className="mt-2 space-y-3 text-sm">{CONVERSACIONES.map((c, i) => (

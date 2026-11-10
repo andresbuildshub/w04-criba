@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Evento from '../Evento'
-import { TIERS, MEMO, ratio, fmt } from '../../lib/precios'
+import { TIERS, costoMala, fmt } from '../../lib/precios'
 
 export const metadata = { title: 'Precios — Criba' }
 
@@ -51,8 +51,9 @@ export default function Pricing() {
       </section>
 
       <section className="rounded-2xl border border-neutral-800 p-5">
-        <h2 className="font-semibold">¿Vale los MX$490? Con mis supuestos, todavía no llega a 10 a 1.</h2>
-        <p className="mt-2 text-sm text-neutral-300">Contra el periodo de prueba, una vacante con tres finalistas le ahorra en promedio {fmt(ratio() * MEMO.precio.v)}: <b>{ratio().toFixed(1)} a 1</b>. Las cuentas, qué está medido y qué es supuesto, están en el <Link href="/about" className="underline">memo 10:1</Link>. Los supuestos se pueden mover en el <Link href="/simulador" className="underline">simulador</Link>.</p>
+        <h2 className="font-semibold">Contra qué se compara</h2>
+        <p className="mt-2 text-sm text-neutral-300">Hoy usted se entera de si una auxiliar sirve en el <b>periodo de prueba</b>: un mes de sueldo y cargas (≈ {fmt(costoMala())}), más lo que cueste si el error llega a un cliente. Probar a sus finalistas antes de contratar: <b>MX$490 por la vacante</b>, y la primera, gratis.</p>
+        <p className="mt-2 text-xs text-neutral-500">Las cuentas completas, con lo que está medido y lo que todavía no sé, están en el <Link href="/about" className="underline">memo</Link> y en el <Link href="/simulador" className="underline">simulador</Link>.</p>
       </section>
     </div>
   )

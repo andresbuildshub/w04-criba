@@ -18,6 +18,7 @@ const num = s => Number(String(s).replace(/[^0-9-]/g, ''));
   ok(await p.locator('article').count() === 3, '/pricing: 3 tiers');
   ok(await p.getByText('La candidata nunca paga').count() >= 1, '/pricing: "La candidata nunca paga"');
   ok(await p.getByText('Dos segmentos').count() === 1, '/pricing: dos segmentos');
+  ok(!(await p.locator('main').innerText()).includes('2.4'), '/pricing: no discute contra su propio precio (fix persona: sin "2.4 a 1" en la página del cliente)');
   ok(await sinScroll(p), '/pricing: sin scroll horizontal a 390 px'); await snap('01-pricing');
 
   // 2. /simulador: base = memo, mover precio cambia el ingreso
@@ -58,6 +59,7 @@ const num = s => Number(String(s).replace(/[^0-9-]/g, ''));
   ok(/2\.4 : 1/.test(txt) && /2\.4 a 1/.test(txt), '/about: 2.4:1 en título y tabla');
   ok(txt.includes('$58,800'), '/about: umbral $58,800');
   ok(txt.includes('PENDIENTE') && txt.includes('simuladas'), '/about: conversación real PENDIENTE y sesiones simuladas dichas');
+  ok(!txt.includes('890') && txt.includes('lib/conversaciones.js'), '/about: la regla del experimento (490→890) no se le muestra al pagador; enlace a la regla fechada');
   ok(txt.includes('$47,117'), '/about: el escenario Base del memo = simulador');
   ok(await sinScroll(p), '/about: sin scroll horizontal'); await snap('03-about');
 

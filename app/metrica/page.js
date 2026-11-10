@@ -66,7 +66,7 @@ export default async function Metrica() {
           <li>Guardar lo que alguien escribió: ni mensajes, ni comentarios, ni selecciones.</li>
           <li>Grabar sesiones o teclas (sin Clarity, sin Hotjar): un grabador guardaría las respuestas de la candidata.</li>
         </ul>
-        <p className="text-xs text-neutral-500">Nota de honestidad: los eventos del 2026-11-05 incluyen el pase mecánico (pruebas automatizadas de la semana 13), no solo personas. Persistencia: {persistencia}. Las dos columnas de esta semana: el log mide credibilidad (abrió, verificó); las sesiones con personas miden compromiso (pidió entrevista, reenvió el link), y eso no vive aquí.</p>
+        <p className="text-xs text-neutral-500">Nota de honestidad: los eventos del 2026-11-05 y del 2026-11-10 incluyen el pase mecánico (pruebas automatizadas de las semanas 13 y 14), no solo personas. Persistencia: {persistencia}. Las dos columnas de esta semana: el log mide credibilidad (abrió, verificó); las sesiones con personas miden compromiso (pidió entrevista, reenvió el link), y eso no vive aquí.</p>
       </section>
     </div>
   )
