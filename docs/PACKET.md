@@ -1,104 +1,96 @@
-# Packet — Semana 13 · Criba (venture) · "Cinco usuarios que no me quieren"
+# PACKET — Criba · Semana 14 · PRICING: el número que dice la verdad
 
-> Escrito ANTES del código de esta semana (2026-11-05, después del Brain Bending). Semana 13 · venture week · T8 · lente USER · Andrés Álvarez Morphy Namnum. El packet de la semana 4 (primer build) quedó en `docs/PACKET-w04.md`.
+> Packet antes del código (2026-11-10). Viene del Brain Bending de hoy (`w14-fight/BRIEF_andres.md`, lente USER, T1). Los packets anteriores están en `PACKET-w04.md` y `PACKET-w13.md`. El Blueprint T1 todavía no existe, así que construyo lo que sobrevivió del brief. Cuando llegue el Blueprint, reviso sus condiciones contra esta página y contra la app.
 
 ## El problema, en mis palabras
-
-Criba lleva 60 días en vivo y nadie real la ha usado: el tablero está en 0 de 20 porque nunca le mandé el link a un dueño. Lo único que sé del dueño de despacho (su semana seis, su cuñada, que no abre links) es inferencia mía. Esta semana el producto deja de ser una idea probada con un usuario sintético y se pone delante de cinco personas de su mundo, tres de ellas desconocidas. Lo que me enseñen sus trabas y sus palabras exactas decide el fix; mi preferencia no.
-
-La pelea de hoy movió el producto antes de las sesiones (hipótesis #2, declarada): el dueño no entra por la portada, recibe la constancia por WhatsApp, y lo que juzga es el **mensaje que la candidata le escribió al cliente**, no el "3 de 4" (ese lo saca un modelo igual). La constancia nueva lleva el mensaje arriba, el conteo abajo, y un código firmado para comprobar en 30 segundos que no se editó, sin que el servidor guarde nada.
+Criba no tiene precio y sin precio es un pasatiempo con URL. Además, el único número de usuario que tengo medido es 0 de 20: nunca le pedí nada a nadie. Esta semana Criba dice en voz alta cuánto cuesta, quién paga, dónde está la línea de lo gratis y si el 10 a 1 aguanta frente a lo que el dueño hace hoy. Esto último incluye decir que **no aguanta** si los números no dan.
 
 ## Usuario exacto
+- **Usuario y pagador de record:** el socio o dueño de un despacho contable de 1–20 personas, sin RH, con una vacante de auxiliar contable abierta y 3 o más finalistas. Hoy se entera de si la junior sirve pagándole el **periodo de prueba** (LFT art. 39-A, hasta 30 días).
+- **Segmento 2 (supuesto, ningún usuario visto):** despacho de 21–50 personas con alguien de RH que contrata 4 o más veces al año.
+- **Quien nunca paga:** la candidata, ni por la muestra ni por su constancia.
 
-- **Usuario de record: el dueño o encargado de un despacho contable de 1–20 personas, sin RH, con vacante de auxiliar contable abierta ESTA semana** (sale de anuncios en OCC/Computrabajo). Su "no" mata el 10:1; su reenvío del link a una candidata real es el único compromiso que cuesta algo.
-- **Segundo usuario: la egresada de contaduría sin experiencia** (UVM/UNITEC/UAEH), desde su teléfono, por WhatsApp. Si no termina la muestra, el dueño nunca ve nada.
-- Las dos predicciones escritas antes de las sesiones (se rompen en público):
-  - Dueño: lee el mensaje de la candidata en WhatsApp; NO toca el enlace de verificar; cuando dice "sí, la entrevisto" y le pido que reenvíe el link a su candidata delante de mí, dice "luego".
-  - Egresada: llega al final de las 20 tarjetas, abre el cuadro del mensaje y escribe menos de 40 palabras (el mínimo de la rúbrica) y cierra.
-
-## Definición de éxito
-
-**Antes de que cierre el módulo:** (1) cinco sesiones documentadas (rol, tarea, dónde se trabó, citas exactas, columna observado/declarado/compromiso); (2) las 3 peores fallas ordenadas por amenaza al 10:1 con la regla escrita antes (nivel 1 = impide que un dueño diga sí; nivel 2 = impide que una egresada termine; nivel 3 = lo demás), ordenadas por alguien que no soy yo; (3) la falla #1 corregida y redesplegada, con capturas antes/después; (4) un usuario que vuelve con prueba (mensaje del dueño "ya se lo mandé" o evento `regreso`); (5) la bitácora de eventos viva en /metrica con datos reales y sin identificadores; (6) la URL de registro carga.
+## Definición de éxito (antes de que cierre el módulo)
+1. **`/pricing` en vivo:** 3 tiers (Gratis · Por vacante · Despacho con RH), 2 segmentos y la línea de lo gratis explicada: la primera ventana de cada vacante es gratis.
+2. **`/simulador` en vivo:** clientes × conversión × vacantes × precio → ingresos mensuales y anuales, menos el costo fijo de validar sets. Los supuestos se ven, cada uno marcado como **medido** o **supuesto**. **Escenarios guardados** (en el navegador y como enlace para compartir). Trae tres escenarios de fábrica, y el "Base" es exactamente el del memo.
+3. **`/about` con el memo 10:1 (1 página):** lo que el dueño hace hoy, lo que le cuesta (dinero + tiempo + riesgo), mi precio, el ratio calculado **con las mismas funciones del simulador** (2.4:1 en el caso base), la sensibilidad y qué tendría que ser verdad para que llegue a 10.
+4. **La conversación real de precio:** su lugar en /about con la regla escrita antes y el estado honesto (**PENDIENTE** hasta que exista). Nunca se llena con un ejemplo inventado.
+5. **`/convocar`:** precio escrito junto a la decisión y el aviso "si pruebas a una sola, la comparas con nadie", con un botón **"a ninguna"** del mismo tamaño. Esa elección se cuenta en el log sin identidad.
+6. Un bug encontrado y corregido en el pase mecánico, un fix de la prueba de persona y redeploy.
 
 ## Mockup (generado)
-
-![Mockup de las dos pantallas nuevas: la constancia con el mensaje arriba y el código, y la página de verificación de 30 segundos](mockup-w13.png)
-
-*Generado por código (HTML → Playwright) antes de escribir la app.*
+![mockup /pricing + simulador](mockup-w14.png)
+*Render generado a partir de una descripción de pantalla (HTML → PNG), a 390 px: tres tarjetas de precio arriba, la línea de lo gratis en ámbar y el simulador con supuestos etiquetados.*
 
 ## Flujo
 
 ```mermaid
 flowchart TD
-  A[Egresada abre /muestra en su teléfono] --> B[Marca 4 de 20 y escribe el mensaje al cliente]
-  B --> C[POST /api/calificar]
-  C --> D[Conteo determinista + revisión del mensaje por reglas]
-  D --> E[Firma HMAC del resultado → código XXXX-XXXX]
-  E --> F[Constancia: MENSAJE arriba · conteo abajo · enlace /verificar]
-  F --> G[Ella la copia y la manda a quien quiera. Nada se guarda]
-  G --> H[Dueño lee el mensaje en WhatsApp]
-  H -->|30 s| I[Abre /verificar una vez: recalcula la firma, no guarda el código]
-  H --> J[Decide: entrevista / reenvía el link a su candidata]
-  subgraph LOG[Bitácora sin identificadores]
-    K[(evento + día)]
-  end
-  A -. muestra_vista .-> K
-  D -. muestra_calificada .-> K
-  G -. constancia_copiada .-> K
-  I -. constancia_verificada .-> K
-  J -. decision_enviada / regreso .-> K
+  A["Dueño llega a /pricing"] --> B{¿Cuántas finalistas tiene en esta vacante?}
+  B -- una --> C["Primera ventana GRATIS en /convocar"]
+  B -- dos o más --> D[Ventanas 2 a 10: MX$490 por vacante, 30 días]
+  B -- "4+ vacantes al año, con RH" --> E[Plan anual MX$4,900, hasta 12 vacantes]
+  C --> F[Aviso: si pruebas a una sola, la comparas con nadie]
+  D --> F
+  F -- probar a todas --> G[Ventanas registradas → candidatas hacen la muestra]
+  F -- a ninguna --> H[Nada se cobra · evento convocar_a_ninguna]
+  G --> I["Constancia abierta por quien la juzga → /verificar gratis"]
+  A --> J["/simulador: mueve supuestos → ingreso por mes y año → guarda escenario"]
+  A --> K["/about: memo 10:1 con las mismas cuentas"]
+  K --> L{¿Llega a 10:1?}
+  L -- no, 2.4:1 base --> M[Lo dice y dice qué tendría que ser verdad: ~MX$58,800 por mala contratación]
 ```
 
+**Carriles: quién hace qué**
+
 ```mermaid
-sequenceDiagram
-  participant E as Egresada
-  participant U as UI
-  participant S as Servidor
-  participant B as Vercel Blob (eventos)
-  participant D as Dueño
-  E->>U: hace la muestra
-  U->>S: POST /api/calificar {seleccion, mensaje, asistencia}
-  S-->>U: constancia (mensaje arriba, código firmado, enlace)
-  U->>S: POST /api/eventos {constancia_copiada}
-  S->>B: put(dia-evento.json) — sin hora, sin código
-  E->>D: WhatsApp con la constancia (sin pasar por mí)
-  D->>S: GET /verificar?c=…&f=…&a=…
-  S->>S: recalcula HMAC, compara, descarta
-  S->>B: put(dia-constancia_verificada.json)
-  S-->>D: "Sí: el código coincide" + qué NO dice + qué preguntar en la entrevista
+flowchart LR
+  subgraph Dueño
+    d1["Lee /pricing"] --> d2["Abre ventana en /convocar"] --> d3[Paga 490 por transferencia si abre la 2ª] --> d4[Verifica gratis]
+  end
+  subgraph Candidata
+    c1[Recibe el enlace] --> c2[Hace la muestra 40 min] --> c3[Manda su constancia · nunca paga]
+  end
+  subgraph Criba_sistema[Criba · sistema]
+    s1[Registra ventana sin identidad] --> s2[Califica con regla fija] --> s3[Cuenta eventos por día]
+  end
+  subgraph Andrés_operador[Andrés · operador]
+    a1[Escribe a 5 socios con vacante] --> a2[Pregunta: ¿pagarías 490?] --> a3[Anota SÍ AL PRECIO / USÓ LO GRATIS / NO + razón] --> a4[Cobra a mano, recibo simple, sin factura aún]
+  end
+  d2 --> s1 --> c1
+  c2 --> s2 --> c3 --> d4
+  a2 --> d2
 ```
 
 ## Benchmark
-
-**La mejor solución existente en el mundo para esto es** Applied (Reino Unido, BIT): la muestra de trabajo anonimizada corre dentro del pipeline del empleador y reemplaza el filtro de CV (en el piloto de BIT, >50% de los contratados no habrían pasado el CV). **La mía difiere/localiza en** que el despacho de 4 no tiene pipeline ni 700 solicitantes: Criba no reemplaza un filtro, reemplaza la semana seis de una mala contratación, entra como un link en WhatsApp antes de la entrevista que el dueño ya iba a hacer, y lo que el dueño juzga es el mensaje de la candidata con su propio criterio, no una calificación de máquina.
+- **Lo mejor que existe en el mundo para esto es** TestGorilla: paga el empleador, la candidata nunca, el plan gratis es el anzuelo y Core cuesta US$215/mes.
+- **Criba se diferencia o localiza en** que cobra **por vacante** y no por mes (un despacho de 3 contrata una o dos veces al año), en español y con CFDI 4.0, y en que la línea de lo gratis está en la **primera candidata de cada vacante** para que nadie se quede sin registro porque el despacho no pagó.
 
 ## Vista larga (3 oraciones)
-
-Si esta rebanada funciona, en tres años Criba es el mensaje que una egresada manda antes del CV y que un despacho reconoce porque ya le sirvió una vez: una constancia firmada que él lee en 30 segundos y una pregunta de entrevista que no se falsifica con un modelo. Los muros de carga son la rúbrica pública, la firma sin almacenamiento (el servidor nunca guarda una constancia ni un código) y la bitácora que cuenta días y nunca personas. Lo que la mata es lo mismo que la mataría hoy: que ningún dueño cuente una semana seis con sus palabras.
+Si esta rebanada funciona, en tres años Criba es la ventana que un despacho abre antes del periodo de prueba, cobrada por vacante, con sets de CFDIs rotados y validados por contadores a los que se les paga. La candidata nunca paga, y eso es un muro de carga, no una promoción. La verificación es gratis para cualquiera, y el ingreso sale solo de quien duda de la candidata y abre la ventana.
 
 ## Lo que NO construyo esta semana
-
-- Rotación de juegos de facturas (v0.2): la clave de respuestas cabe en un WhatsApp (kill propio, entregado al Adversario); queda como deuda declarada en /rubrica.
-- Revisión del mensaje con modelo de lenguaje real: sigue por reglas, etiquetada.
-- Cuentas, base de datos, grabación de sesiones (Clarity/Hotjar): un grabador guardaría las respuestas de la candidata.
-- Pago de nadie: los MX$400 de la egresada mueren esta semana como BET; se mide dolor, no precio.
-- Un enlace por dueño para rastrear reenvíos: uniría dueño con constancia.
+- **Cobro en línea, link de pago o factura (CFDI):** no hay RFC con actividad ni PAC. La página lo dice: recibo simple, transferencia, a mano.
+- **Paywall en /convocar:** el sitio muestra el precio, pero no bloquea la segunda ventana mientras no exista forma honesta de cobrar.
+- **Cuentas y login:** los escenarios guardados viven en el navegador y en el enlace, sin datos personales, así que no se necesita auth.
+- **Ningún "ejemplo" inventado de la conversación de precio**, y nada de sesiones simuladas presentadas como reales.
+- Rotación real de sets (v0.2) y dominio propio (decisión de dinero de Andrés).
 
 ## Arquitectura y stack
 
-| Capa | Qué | Por qué |
+| Pieza | Qué | Por qué |
 |---|---|---|
-| Web | Next.js 15 (App Router, JS) + Tailwind 4, Vercel | el mismo stack de las 9 naves |
-| Firma | `lib/firma.js` — HMAC-SHA256 sobre fecha·versión·aciertos·falsos·checks·asistencia → 8 chars (sin 0/O/1/I); secreto en Vercel env `CONSTANCIA_SECRET`; sin secreto → constancia "SIN CÓDIGO" | verificar sin guardar: Condición 5 |
-| Verificación | `/verificar?c=…&f=…` recalcula y compara; no guarda código ni campos | 30 segundos del dueño |
-| Eventos | `lib/eventos.js` + `POST /api/eventos` {evento, pantalla} lista cerrada → Vercel Blob `w04-criba/eventos/DIA-evento.json` (sin hora) | piso de la semana; shadow: el día, nunca la hora ni el código |
-| Métrica | `/metrica` conteos, embudos, por día; "lo que este log nunca hace" | honestidad renderizada |
-| Regreso | `/volver` cuenta `regreso` sin saber quién | prueba barata de segunda visita |
-| Tests | `node --test` (firma, eventos, calificación) + Playwright contra producción (390 px) | pase mecánico |
+| `lib/precios.js` | Tiers, segmentos, supuestos (valor, unidad, fuente, medido/supuesto), `simular()`, `ratio()`, `sensibilidad()`, codificar/decodificar escenarios con validación y topes | Una sola fuente de verdad: /pricing, /simulador y /about leen las mismas cuentas (lo exige la aclaración del curso) |
+| `/pricing` (server) | Tarjetas + línea de lo gratis + segmentos | Estática, rápida en celular |
+| `/simulador` (client) | Entradas con rango, salidas mes/año, tabla de supuestos, escenarios en `localStorage` + `?e=` | La lógica corre en el navegador y no se guarda nada en servidor |
+| `/about` (server) | Memo 10:1 calculado con `ratio()` + sensibilidad + conversación real (de `lib/conversaciones.js`, hoy vacío → PENDIENTE) | Lo que no está medido se ve como no medido |
+| `/convocar` | Precio junto a la decisión + aviso + botón "a ninguna" del mismo tamaño | Condición sombra visible donde se decide |
+| `lib/eventos.js` | +5 eventos en la lista cerrada: `pricing_visto`, `simulador_visto`, `escenario_guardado`, `about_visto`, `convocar_a_ninguna` | Medir sin identidad |
+| Stack | Next.js 15 + Tailwind 4, Vercel (gratis), Vercel Blob (ya existente), `node --test`, Playwright | Mismo stack, gratis |
+
+**Piso de seguridad:** no hay secretos en el repo (`.env*` en .gitignore). No se guardan datos personales nuevos, así que no hace falta auth ni RLS. Los escenarios del `?e=` se validan con lista blanca de llaves, tipos y topes, y una entrada mala cae al escenario base. Los datos son inventados y así se etiquetan.
 
 ## Plan de pruebas
-
-1. Unitarias: `firmar` es determinista y cambia con cualquier campo; `verificar` rechaza código editado y campos editados; `validar` rechaza eventos fuera de lista, campos extra; `resumirEventos` cuenta por día.
-2. Mecánica (Playwright vs prod, 390 px): hacer la muestra → constancia con mensaje arriba y código → abrir el enlace de verificar → "Sí"; editar un dígito → "No"; /metrica muestra los eventos del día; POST con evento inventado → 400; ningún request lleva el texto del mensaje a /api/eventos.
-3. Persona (capa 1, antes de las sesiones): egresada sintética en 6 pulgadas; predicción: <40 palabras en el cuadro.
-4. Sesiones (capa 2): 5 personas, 3 dueños con vacante abierta + 2 egresadas de grupos de Facebook, protocolo Krug/Mom Test (3 min su vida · 12 min tarea en silencio · 3 min compromiso); log por sesión; ranking por alguien que no soy yo; fix #1; redeploy; antes/después.
+1. **Unit (`node --test`):** `simular()` con el caso base da los ingresos esperados a mano. `ratio()` del caso base da 2.4 (1,167/490) y el umbral de 10:1 da ≈58,800. Un escenario codificado y decodificado sale idéntico. Una entrada con llave extra, texto, negativo o `Infinity` cae al tope o al base. Conversión >100% se rechaza.
+2. **E2E (Playwright, 390 px):** /pricing muestra 3 tiers y "la candidata nunca paga". El simulador cambia el ingreso al mover el precio. Guardar escenario → recargar → sigue ahí. El enlace compartido reproduce el escenario. /about muestra 2.4 y el mismo número que el simulador en "Base". /about dice PENDIENTE en la conversación real. /convocar muestra el botón "a ninguna" del mismo tamaño que "probar a todas". No hay scroll horizontal.
+3. **Prueba de persona (capa 1):** un dueño de despacho sintético recorre /pricing → /simulador → /about en capturas a 390 px. Se registran todas sus confusiones y se corrige la peor. Se etiqueta como sintético.
