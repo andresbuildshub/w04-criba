@@ -42,6 +42,14 @@ export default async function Metrica() {
       </section>
 
       <section className="rounded-2xl border border-neutral-800 p-5">
+        <h2 className="font-semibold">Precio (semana 14)</h2>
+        <ul className="mt-2 grid gap-1 text-sm sm:grid-cols-2">
+          {[['pricing_visto', 'Vieron /pricing'], ['simulador_visto', 'Abrieron el simulador'], ['escenario_guardado', 'Guardaron un escenario (el escenario no viaja aquí)'], ['about_visto', 'Leyeron el memo 10:1']].map(([e, t]) => <li key={e} className="flex justify-between gap-4"><span>{t}</span><b>{s.conteo[e] || 0}</b></li>)}
+        </ul>
+        <p className="mt-3 text-sm text-neutral-300">Aviso de /convocar, “si pruebas a una sola, la comparas con nadie”: <b>a todas</b> {s.conteo.convocar_a_todas || 0} · <b>a ninguna</b> {s.conteo.convocar_a_ninguna || 0}. Si casi nadie elige “a ninguna”, el aviso puede estar empujando a pagar: este conteo decide si es un patrón oscuro.</p>
+      </section>
+
+      <section className="rounded-2xl border border-neutral-800 p-5">
         <h2 className="font-semibold">Por día</h2>
         {dias.length === 0 ? <p className="mt-2 text-sm text-neutral-500">Todavía ningún evento en 14 días.</p> : (
           <div className="mt-2 overflow-x-auto"><table className="w-full text-left text-xs"><thead className="text-neutral-500"><tr><th className="p-2">Día</th>{EVENTOS.map(e => <th key={e} className="p-2">{e}</th>)}</tr></thead>

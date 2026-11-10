@@ -3,10 +3,10 @@ import Link from 'next/link'
 
 export const metadata = {
   title: 'Criba — la prueba es el CV',
-  description: 'Muestra de trabajo para auxiliar contable junior + bitácora de reconocimiento de despachos. Crystal Ball Studio, semana 4.',
+  description: 'Muestra de trabajo para auxiliar contable junior + bitácora de reconocimiento de despachos. Crystal Ball Studio.',
 }
 
-const NAV = [['/', 'Inicio'], ['/muestra', 'Muestra'], ['/decision', 'Soy despacho'], ['/convocar', 'Abrir muestra'], ['/tablero', 'Tablero'], ['/rubrica', 'Rúbrica'], ['/metrica', 'Métrica']]
+const NAV = [['/', 'Inicio'], ['/muestra', 'Muestra'], ['/decision', 'Soy despacho'], ['/convocar', 'Abrir muestra'], ['/pricing', 'Precios'], ['/simulador', 'Simulador'], ['/about', 'Memo 10:1'], ['/tablero', 'Tablero'], ['/rubrica', 'Rúbrica'], ['/metrica', 'Métrica']]
 
 export default function RootLayout({ children }) {
   return (

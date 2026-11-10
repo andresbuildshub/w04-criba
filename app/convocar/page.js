@@ -10,6 +10,8 @@ export default function Convocar() {
   const [res, setRes] = useState(null)
   const [err, setErr] = useState(null)
   const [copiado, setCopiado] = useState(false)
+  const [eleccion, setEleccion] = useState(null) // null | 'todas' | 'ninguna'  (semana 14: aviso con precio y "a ninguna" del mismo tamaño)
+  function elegir(x) { setEleccion(x); registrar(x === 'todas' ? 'convocar_a_todas' : 'convocar_a_ninguna', 'convocar') }
   useEffect(() => { registrar('convocar_abierto', 'convocar') }, [])
 
   async function crear(e) {
@@ -30,7 +32,19 @@ export default function Convocar() {
         <p className="text-neutral-300">Usted decide cuándo la hace. El enlace es de <b>un solo uso</b>: caduca en 24 horas si no se abre y, una vez abierto, da <b>60 minutos</b>. Criba registra el intento (hora de inicio, hora de entrega, qué marcó) <b>sin nombre, sin teléfono, sin correo</b>, y la constancia que ella le mande dirá que se hizo con su enlace, en una sola sesión. Así ya no es "en su casa, dice que sola".</p>
       </header>
 
-      {!res ? (
+      <section className="space-y-3 rounded-2xl border border-amber-300/40 bg-amber-300/5 p-5" aria-labelledby="aviso-finalistas">
+        <h2 id="aviso-finalistas" className="font-semibold text-amber-200">Antes: si prueba a una sola, la compara con nadie</h2>
+        <p className="text-sm text-neutral-300">La muestra sirve para <b>comparar</b> a sus finalistas con la misma tarea. Si solo la hace una, esa es la única con errores a la vista y las demás no muestran ninguno: le perjudica tenerla.</p>
+        <p className="text-sm text-neutral-300"><b>Precio:</b> la primera ventana de esta vacante es <b>gratis</b>. De la segunda a la décima: <b>MX$490 por toda la vacante</b>, 30 días (recibo simple, sin factura todavía; se cobra a mano después de que se use la segunda). <b>No probar a ninguna cuesta MX$0.</b> <Link href="/pricing" className="underline">Ver precios</Link></p>
+        <div className="grid grid-cols-2 gap-3">
+          <button type="button" onClick={() => elegir('todas')} aria-pressed={eleccion === 'todas'} className={`rounded-xl border px-3 py-3 text-sm font-semibold ${eleccion === 'todas' ? 'border-amber-300 bg-amber-300 text-neutral-950' : 'border-neutral-600'}`}>Probar a todas mis finalistas</button>
+          <button type="button" onClick={() => elegir('ninguna')} aria-pressed={eleccion === 'ninguna'} className={`rounded-xl border px-3 py-3 text-sm font-semibold ${eleccion === 'ninguna' ? 'border-amber-300 bg-amber-300 text-neutral-950' : 'border-neutral-600'}`}>A ninguna</button>
+        </div>
+        {eleccion === 'ninguna' && <p role="status" className="text-sm text-neutral-200">De acuerdo. No se abrió nada y no se cobra nada. Si cambia de opinión, aquí sigue.</p>}
+        {eleccion === 'todas' && <p role="status" className="text-sm text-neutral-200">Cree un enlace por cada finalista (un enlace = una candidata). El primero es gratis.</p>}
+      </section>
+
+      {eleccion === 'ninguna' ? null : !res ? (
         <form onSubmit={crear} className="space-y-4">
           <div className="space-y-1">
             <label htmlFor="despacho" className="font-semibold">Nombre de su despacho (aparece en la constancia)</label>

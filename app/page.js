@@ -33,7 +33,7 @@ export default function Home() {
         <h2 className="font-semibold text-amber-200">La regla de este piloto, a la vista</h2>
         <p className="mt-2 text-neutral-300">
           Si menos de <b>5 de 20</b> dueños de despacho dicen que preseleccionarían con esta muestra, el proyecto cambia de vacío.
-          El conteo es público en el <Link href="/tablero" className="underline">tablero</Link>. Ningún candidato paga un peso antes de que un despacho diga que sí.
+          El conteo es público en el <Link href="/tablero" className="underline">tablero</Link>. <b>La candidata nunca paga.</b> Paga el despacho que abre la ventana: la primera de cada vacante es gratis, las demás MX$490 por vacante (<Link href="/pricing" className="underline">precios</Link> · <Link href="/about" className="underline">el memo 10:1</Link>).
         </p>
       </section>
 
