@@ -68,6 +68,7 @@ const num = s => Number(String(s).replace(/[^0-9-]/g, ''));
   const a = await p.getByRole('button', { name: 'Probar a todas mis finalistas' }).boundingBox();
   const z = await p.getByRole('button', { name: 'A ninguna' }).boundingBox();
   ok(a && z && Math.abs(a.width - z.width) < 2 && Math.abs(a.height - z.height) < 2, `/convocar: "a ninguna" mide lo mismo (${a && Math.round(a.width)}×${a && Math.round(a.height)} vs ${z && Math.round(z.width)}×${z && Math.round(z.height)})`);
+  ok(await p.getByText('Cómo se paga hoy').count() === 1 && await p.locator('a[href^="mailto:"]').count() >= 1, '/convocar: cómo se paga, en la pantalla donde se decide (fix persona r2)');
   await snap('04-convocar');
   await p.getByRole('button', { name: 'A ninguna' }).click();
   ok(await p.getByText('no se cobra nada').count() === 1 && await p.locator('#despacho').count() === 0, '"a ninguna": no se cobra, se oculta el formulario');

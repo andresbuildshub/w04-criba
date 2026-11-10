@@ -37,7 +37,7 @@ export default function Home() {
         </p>
       </section>
 
-      <p className="text-sm text-neutral-400">¿Quién hace esto? Andrés Álvarez Morphy, estudiante. Es un proyecto de curso (Crystal Ball Studio, semana 4) para probar una idea con despachos reales antes de cobrarle a nadie. Dudas: andres.builder@gmail.com</p>
+      <p className="text-sm text-neutral-400">¿Quién hace esto? Andrés Álvarez Morphy, estudiante. Es un proyecto de curso (Crystal Ball Studio) para probar una idea con despachos reales antes de cobrarle a nadie. Dudas: andres.builder@gmail.com</p>
 
       <section className="grid gap-6 text-sm text-neutral-300 sm:grid-cols-3">
         <div><h3 className="font-semibold text-neutral-100">Lo que certifica</h3><p className="mt-1">Que en esta tarea, esta persona detectó N de 4 errores y redactó un mensaje que cumple X de Y verificaciones. Nada más.</p></div>

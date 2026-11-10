@@ -35,13 +35,21 @@ export default function Convocar() {
       <section className="space-y-3 rounded-2xl border border-amber-300/40 bg-amber-300/5 p-5" aria-labelledby="aviso-finalistas">
         <h2 id="aviso-finalistas" className="font-semibold text-amber-200">Antes: si prueba a una sola, la compara con nadie</h2>
         <p className="text-sm text-neutral-300">La muestra sirve para <b>comparar</b> a sus finalistas con la misma tarea. <b>Cada finalista necesita su propio enlace</b>: con tres finalistas, cree tres. Si solo la hace una, esa es la única con errores a la vista y las demás no muestran ninguno: le perjudica tenerla.</p>
-        <p className="text-sm text-neutral-300"><b>Precio:</b> la primera ventana de esta vacante es <b>gratis</b>. De la segunda a la décima: <b>MX$490 por toda la vacante</b>, 30 días (recibo simple, sin factura todavía; se cobra a mano después de que se use la segunda). <b>No probar a ninguna cuesta MX$0.</b> <Link href="/pricing" className="underline">Ver precios</Link></p>
+        <p className="text-sm text-neutral-300"><b>Precio:</b> la primera ventana de esta vacante es <b>gratis</b>. De la segunda a la décima: <b>MX$490 por toda la vacante</b>, 30 días <b>No probar a ninguna cuesta MX$0.</b> <Link href="/pricing" className="underline">Ver precios</Link></p>
         <div className="grid grid-cols-2 gap-3">
           <button type="button" onClick={() => elegir('todas')} aria-pressed={eleccion === 'todas'} className={`rounded-xl border px-3 py-3 text-sm font-semibold ${eleccion === 'todas' ? 'border-amber-300 bg-amber-300 text-neutral-950' : 'border-neutral-600'}`}>Probar a todas mis finalistas</button>
           <button type="button" onClick={() => elegir('ninguna')} aria-pressed={eleccion === 'ninguna'} className={`rounded-xl border px-3 py-3 text-sm font-semibold ${eleccion === 'ninguna' ? 'border-amber-300 bg-amber-300 text-neutral-950' : 'border-neutral-600'}`}>A ninguna</button>
         </div>
+        <div className="rounded-xl border border-neutral-700 p-3 text-sm text-neutral-300">
+          <p className="font-semibold text-neutral-100">Cómo se paga hoy (es un proyecto de estudiante, se lo digo una sola vez)</p>
+          <ol className="mt-1 list-decimal space-y-1 pl-5">
+            <li>Nada se cobra solo y esta página no le pide tarjeta, correo ni teléfono.</li>
+            <li>Cuando su <b>segunda</b> finalista entregue, escríbame a <a href="mailto:andres.builder@gmail.com?subject=Criba%20-%20pago%20de%20vacante" className="underline">andres.builder@gmail.com</a> con el código de uno de sus enlaces.</li>
+            <li>Le contesto con los datos para transferir <b>MX$490</b> y le mando un <b>recibo simple</b>. <b>Todavía no puedo darle factura</b>: no estoy dado de alta. Si sin factura no le sirve, dígamelo: es justo lo que necesito saber.</li>
+          </ol>
+        </div>
         {eleccion === 'ninguna' && <p role="status" className="text-sm text-neutral-200">De acuerdo. No se abrió nada y no se cobra nada. Si cambia de opinión, aquí sigue.</p>}
-        {eleccion === 'todas' && <p role="status" className="text-sm text-neutral-200">Cree un enlace por cada finalista (un enlace = una candidata). El primero es gratis.</p>}
+        {eleccion === 'todas' && <p role="status" className="text-sm text-neutral-200">Cree un enlace por cada finalista (un enlace = una candidata). El primero es gratis; si usa un segundo, el pago es como dice arriba, después y por correo.</p>}
       </section>
 
       {eleccion === 'ninguna' ? null : !res ? (
