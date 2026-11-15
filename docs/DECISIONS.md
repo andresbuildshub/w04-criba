@@ -44,3 +44,4 @@
 - 2026-09-06 — La revisión del mensaje es por reglas y se etiqueta SIMULADA en pantalla y en la constancia — porque no hay API de LLM disponible y el curso permite simular etiquetando; una IA real será una versión nueva de la rúbrica.
 - 2026-09-06 — Las respuestas DEMO se muestran aparte y no cuentan — porque el tablero necesita enseñar el formato sin fabricar evidencia.
 - 2026-09-06 — Se publica el criterio de muerte (5 de 20) en el inicio y el tablero — porque la honestidad del Blueprint (bets + dissent) debe verse en el producto, no solo en el PDF.
+- 2026-11-15 — Conversación real de precio registrada en `lib/conversaciones.js`: dueño de negocio pequeño, WhatsApp, 2 finalistas, se enteró en la semana 2–3, USÓ LO GRATIS a MX$490 ("me inclino a que sí, pero depende"). Por la regla escrita el 11-10 el precio se queda en MX$490; la siguiente conversación pregunta de qué depende.
