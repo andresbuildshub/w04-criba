@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { registrar } from '../../lib/registrar'
+import { invitacion } from '../../lib/piezas'
 
 // Fix #1 de la semana 13: el DUEÑO abre la ventana. Un enlace, una candidata, 24 h para abrirlo, 60 min para entregar.
 export default function Convocar() {
@@ -21,7 +22,8 @@ export default function Convocar() {
     if (!r.ok) { setErr(j.error || 'No se pudo crear el enlace.'); return }
     setRes(j); registrar('convocatoria_creada', 'convocar')
   }
-  const texto = res ? `Hola. Antes de la entrevista, le pido que haga esta muestra de trabajo (20 facturas, 4 están mal clasificadas, me escribe qué corregir; toma unos 40 minutos y el enlace le da 60 desde que lo abre). Es de un solo uso: ábralo solo cuando pueda hacerla completa, de corrido: ${res.enlace} — Al terminar, mándeme el mensaje corto que le da la página. Gracias.` : ''
+  // Lo que el despacho le manda a la finalista. Vive en lib/piezas.js y pasa la misma prueba que las piezas (semana 15).
+  const texto = res ? invitacion(res.enlace) : ''
   async function copiar() { try { await navigator.clipboard.writeText(texto); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch {} }
 
   return (
@@ -33,8 +35,8 @@ export default function Convocar() {
       </header>
 
       <section className="space-y-3 rounded-2xl border border-amber-300/40 bg-amber-300/5 p-5" aria-labelledby="aviso-finalistas">
-        <h2 id="aviso-finalistas" className="font-semibold text-amber-200">Antes: si prueba a una sola, la compara con nadie</h2>
-        <p className="text-sm text-neutral-300">La muestra sirve para <b>comparar</b> a sus finalistas con la misma tarea. <b>Cada finalista necesita su propio enlace</b>: con tres finalistas, cree tres. Si solo la hace una, esa es la única con errores a la vista y las demás no muestran ninguno: le perjudica tenerla.</p>
+        <h2 id="aviso-finalistas" className="font-semibold text-amber-200">Antes: una ventana por cada finalista, o ninguna</h2>
+        <p className="text-sm text-neutral-300"><b>Cada finalista necesita su propio enlace</b>: con tres finalistas, cree tres. Si solo la hace una, esa es la única con errores a la vista y las demás no muestran ninguno: le perjudica tenerla. Criba no las pone lado a lado ni las ordena: cada entrega se lee en su propia pantalla, y si una no entrega, eso no dice nada de ella.</p>
         <p className="text-sm text-neutral-300"><b>Precio:</b> la primera ventana de esta vacante es <b>gratis</b>. De la segunda a la décima: <b>MX$490 por toda la vacante</b>, 30 días <b>No probar a ninguna cuesta MX$0.</b> <Link href="/pricing" className="underline">Ver precios</Link></p>
         <div className="grid grid-cols-2 gap-3">
           <button type="button" onClick={() => elegir('todas')} aria-pressed={eleccion === 'todas'} className={`rounded-xl border px-3 py-3 text-sm font-semibold ${eleccion === 'todas' ? 'border-amber-300 bg-amber-300 text-neutral-950' : 'border-neutral-600'}`}>Probar a todas mis finalistas</button>
@@ -46,6 +48,7 @@ export default function Convocar() {
             <li>Nada se cobra solo y esta página no le pide tarjeta, correo ni teléfono.</li>
             <li>Cuando su <b>segunda</b> finalista entregue, escríbame a <a href="mailto:andres.builder@gmail.com?subject=Criba%20-%20pago%20de%20vacante" className="underline">andres.builder@gmail.com</a> con el código de uno de sus enlaces.</li>
             <li>Le contesto con los datos para transferir <b>MX$490</b> y le mando un <b>recibo simple</b>. <b>Todavía no puedo darle factura</b>: no estoy dado de alta. Si sin factura no le sirve, dígamelo: es justo lo que necesito saber.</li>
+            <li>Si una finalista no pudo y le abre otra ventana <b>a ella misma</b>, esa no cuenta como segunda: dígamelo en el correo y no se cobra.</li>
           </ol>
         </div>
         {eleccion === 'ninguna' && <p role="status" className="text-sm text-neutral-200">De acuerdo. No se abrió nada y no se cobra nada. Si cambia de opinión, aquí sigue.</p>}
@@ -73,7 +76,7 @@ export default function Convocar() {
           </div>
           <ul className="space-y-1 text-sm text-neutral-300">
             <li>Despacho: <b>{res.despacho}</b> · enlace <span className="font-mono">{res.id}</span> · caduca {new Date(res.expira).toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })}.</li>
-            <li>Cuando ella termine, le llega una constancia con un código. Ábralo en <Link href="/verificar" className="underline">verificar</Link>: ahí verá "Registrado por Criba", la hora de inicio y entrega, y qué error se le fue.</li>
+            <li>Cuando ella termine, le llega una constancia con un código. Ábralo en <Link href="/verificar" className="underline">verificar</Link>: ahí verá "Registrado por Criba", que entregó dentro de la ventana, qué error se le fue y lo que le escribió al cliente del ejercicio.</li>
             <li>Para saber después si ya lo abrió o ya entregó, guarde este enlace (es una página normal): <a href={`/estado?id=${res.id}`} className="underline">{(typeof window !== 'undefined' ? window.location.origin : '')}/estado?id={res.id}</a>. Si cierra esta pantalla sin guardarlo, no hay forma de recuperarlo: no tenemos cuenta ni su teléfono.</li>
           </ul>
         </section>
@@ -83,7 +86,7 @@ export default function Convocar() {
         <h2 className="font-semibold text-neutral-200">Lo que esto no hace</h2>
         <ul className="list-disc space-y-1 pl-5">
           <li>No pide ni guarda su teléfono, su correo ni el de la candidata. El enlace lo manda usted, desde su WhatsApp.</li>
-          <li>No vigila: sin cámara, sin grabación de pantalla, sin captura de teclas. Registra hora de inicio, hora de entrega y qué marcó.</li>
+          <li>No vigila: sin cámara, sin grabación de pantalla, sin captura de teclas. Registra hora de inicio, hora de entrega y qué marcó. A usted le enseña que entregó dentro de los 60 minutos, no cuántos minutos le tomó: el tiempo también mide su teléfono y sus interrupciones.</li>
           <li>La vista previa de WhatsApp no abre el enlace: los 60 minutos empiezan cuando la candidata lo abre en el navegador y ve las facturas.</li>
           <li>No garantiza que lo hizo sola. Garantiza que fue en una sola sesión de 60 minutos, con su enlace. En la entrevista, pídale que explique una de las cuatro facturas en voz alta.</li>
         </ul>

@@ -8,19 +8,31 @@ const mxn = n => n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' 
 export default function Muestra({ cfdis, cliente, version, ventana }) {
   const [sel, setSel] = useState(new Set())
   const [mensaje, setMensaje] = useState('')
-  const [asistencia, setAsistencia] = useState('ninguna')
+  // Fix persona r2 (finalista sintética, semana 15): la declaración venía preseleccionada en "no usé ninguna ayuda";
+  // si no la tocaba, declaraba algo falso sin querer. Ahora no hay respuesta por defecto y hay que elegir.
+  const [asistencia, setAsistencia] = useState('')
   const [res, setRes] = useState(null)
   const [cargando, setCargando] = useState(false)
   const [copiado, setCopiado] = useState(false)
 
   useEffect(() => { registrar('muestra_vista', 'muestra') }, [])
+  // Fix persona r1 (finalista, semana 15): con una ventana de un solo uso, una conexión caída no puede costarle lo que ya hizo.
+  // El borrador vive SOLO en su teléfono (localStorage), atado a esta ventana, y se borra al entregar. Nada viaja al servidor.
+  const clave = ventana ? `criba-borrador-${ventana.id}` : null
+  const [cargado, setCargado] = useState(false)
+  useEffect(() => {
+    if (!clave) return
+    try { const b = JSON.parse(localStorage.getItem(clave) || 'null'); if (b) { setSel(new Set(b.sel || [])); setMensaje(b.mensaje || ''); if (b.asistencia) setAsistencia(b.asistencia) } } catch {}
+    setCargado(true)
+  }, [clave])
+  useEffect(() => { if (clave && cargado && !res) try { localStorage.setItem(clave, JSON.stringify({ sel: [...sel], mensaje, asistencia })) } catch {} }, [clave, cargado, sel, mensaje, asistencia, res])
   const toggle = id => setSel(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
 
   async function calificar() {
     setCargando(true); setRes(null)
     try {
       const r = await fetch('/api/calificar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seleccion: [...sel], mensaje, asistencia, conv: ventana?.id || null }) })
-      setRes(await r.json()); registrar('muestra_calificada', 'muestra')
+      const j = await r.json(); setRes(j); registrar('muestra_calificada', 'muestra'); if (clave && j.registrado) try { localStorage.removeItem(clave) } catch {}
     } finally { setCargando(false) }
   }
   async function copiar() { try { await navigator.clipboard.writeText(res.constancia); registrar('constancia_copiada', 'muestra'); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch {} }
@@ -30,7 +42,7 @@ export default function Muestra({ cfdis, cliente, version, ventana }) {
       <header className="space-y-2">
         {ventana && (
           <div className="rounded-2xl border border-emerald-400/40 bg-emerald-400/5 p-4 text-sm text-neutral-200">
-            <b className="text-emerald-200">Muestra abierta por {ventana.despacho}.</b> Tienes <b>{ventana.minutos} minutos</b> desde que abriste este enlace (hasta las {new Date(ventana.fin).toLocaleTimeString('es-MX', { timeZone: 'America/Mexico_City', hour: '2-digit', minute: '2-digit' })}) y se entrega una sola vez. Se registra la hora de inicio, la de entrega y qué marcaste; <b>no</b> tu nombre, teléfono ni correo.
+            <b className="text-emerald-200">Muestra abierta por {ventana.despacho}.</b> Tienes <b>{ventana.minutos} minutos</b> desde que abriste este enlace (hasta las {new Date(ventana.fin).toLocaleTimeString('es-MX', { timeZone: 'America/Mexico_City', hour: '2-digit', minute: '2-digit' })}) y se entrega una sola vez. Criba guarda la hora de inicio y la de entrega <b>solo para cerrar la ventana a los 60 minutos</b>; al despacho no se le muestran. El despacho ve cuántas de las 4 encontraste, qué marcaste, qué escribiste y qué ayuda declaraste, y que entregaste dentro de la ventana. No se guarda tu nombre, teléfono ni correo. Lo que vayas marcando se guarda <b>en este aparato</b>: si se te cierra, vuelve a abrir el mismo enlace aquí mismo.
           </div>
         )}
         <p className="text-sm uppercase tracking-widest text-amber-300">Muestra de trabajo · {version}</p>
@@ -91,15 +103,17 @@ export default function Muestra({ cfdis, cliente, version, ventana }) {
         <div className="flex flex-wrap items-center gap-3 text-sm">
           <label htmlFor="asistencia" className="text-neutral-300">Declaro que para esta muestra:</label>
           <select id="asistencia" value={asistencia} onChange={e => setAsistencia(e.target.value)} className="rounded-lg border border-neutral-700 bg-neutral-900 p-2">
+            <option value="" disabled>elija una</option>
             <option value="ninguna">no usé ninguna ayuda</option>
             <option value="consulte_fuentes">consulté leyes o apuntes</option>
             <option value="use_ia">usé una IA</option>
           </select>
           <span className="text-xs text-neutral-500">(se imprime en la constancia; no se verifica ni se castiga)</span>
         </div>
-        <button onClick={calificar} disabled={cargando || sel.size === 0} className="rounded-xl bg-amber-300 px-5 py-3 font-semibold text-neutral-950 disabled:opacity-40">
+        <button onClick={calificar} disabled={cargando || sel.size === 0 || !asistencia} className="rounded-xl bg-amber-300 px-5 py-3 font-semibold text-neutral-950 disabled:opacity-40">
           {cargando ? 'Calificando…' : 'Calificar mi revisión'}
         </button>
+        {!asistencia && sel.size > 0 && <p className="text-xs text-amber-200">Antes de entregar, elija qué ayuda usó. No hay respuesta por defecto.</p>}
       </section>
 
       {res && (

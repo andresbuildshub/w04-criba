@@ -15,6 +15,7 @@ export default async function Estado({ searchParams }) {
         {c.abierta && <li>Abierto: {horaMX(c.abierta)}</li>}
         {c.entregada && <li>Entregado: {horaMX(c.entregada)}. La candidata tiene la constancia y el código; cuando se lo mande, ábralo en <Link href="/verificar" className="underline">verificar</Link>.</li>}
       </ul>}
+      {c && !c.entregada && (!e.ok) && <p className="rounded-xl border border-neutral-700 p-3 text-sm text-neutral-300">No hay entrega registrada. <b>Esto no dice nada de ella</b>: pudo no tener datos, no tener una hora libre de corrido o no haber visto el mensaje. Si quiere, ábrale otra ventana.</p>}
       <p className="text-xs text-neutral-500">Esta página no guarda nada ni sabe quién la abrió.</p>
     </div>
   )

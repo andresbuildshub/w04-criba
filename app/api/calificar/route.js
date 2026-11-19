@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { calificarSeleccion, revisarMensaje, CFDIS, RUBRICA_VERSION, CLIENTE } from '../../../lib/muestra'
 import { firmar, cargaFirmable, haySecreto } from '../../../lib/firma'
-import { leerConvocatoria, estado, registrarIntento, horaMX, minutos } from '../../../lib/convocatorias'
+import { leerConvocatoria, estado, registrarIntento, horaMX, VENTANA_MIN } from '../../../lib/convocatorias'
 
 export const dynamic = 'force-dynamic'
 const ASISTENCIA = ['ninguna', 'consulte_fuentes', 'use_ia']
@@ -44,7 +44,7 @@ export async function POST(req) {
     registrado = true; codigo = intento.codigo
     verificar = `${base}/verificar?c=${codigo}`
     constancia = `CONSTANCIA DE MUESTRA DE TRABAJO · ${horaMX(intento.entrega)} · código ${codigo}\n` +
-      `Abierta con el enlace de ${intento.despacho} · inició ${horaMX(intento.inicio)} · entregó ${horaMX(intento.entrega)} (${minutos(intento.inicio, intento.entrega)} min) · una sola sesión, un solo intento. Registrada por Criba sin nombre ni teléfono.\n\n` +
+      `Abierta con el enlace de ${intento.despacho} · entregó dentro de la ventana de ${VENTANA_MIN} minutos · una sola sesión, un solo intento. Registrada por Criba sin nombre ni teléfono.\n\n` +
       `LO QUE ESCRIBIÓ AL CLIENTE (léalo usted; esto es su juicio, no el nuestro):\n«${mensajeLimpio}»\n\n` +
       `LO QUE SE MIDIÓ: revisó 20 facturas (inventadas, cliente ficticio ${CLIENTE.nombre}) que un sistema ya había clasificado, y marcó cuáles estaban mal. ${lineaErrores} ${aprobadoTxt} Su mensaje cumplió ${msg.cumplidos} de ${msg.total} verificaciones de texto (reglas, no IA). Ayuda declarada: ${asistencia}.\n\n` +
       `LO QUE NO DICE: que esté certificada, que sea apta, ni cómo va a trabajar. Lo que sí garantiza: una sesión de 60 minutos con el enlace del despacho, registrada.\n` +

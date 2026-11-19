@@ -58,7 +58,7 @@ const num = s => Number(String(s).replace(/[^0-9-]/g, ''));
   const txt = await p.locator('article').innerText();
   ok(/2\.4 : 1/.test(txt) && /2\.4 a 1/.test(txt), '/about: 2.4:1 en título y tabla');
   ok(txt.includes('$58,800'), '/about: umbral $58,800');
-  ok(txt.includes('USÓ LO GRATIS') && txt.includes('2026-11-15') && !txt.includes('PENDIENTE. Todavía'), '/about: conversación real registrada (2026-11-15, USÓ LO GRATIS)');
+  ok(txt.includes('DIJO QUE USARÍA LO GRATIS') && txt.includes('2026-11-15') && !txt.includes('PENDIENTE. Todavía'), '/about: conversación real registrada (2026-11-15, USÓ LO GRATIS)');
   ok(!txt.includes('890') && txt.includes('lib/conversaciones.js'), '/about: la regla del experimento (490→890) no se le muestra al pagador; enlace a la regla fechada');
   ok(txt.includes('$47,117'), '/about: el escenario Base del memo = simulador');
   ok(await sinScroll(p), '/about: sin scroll horizontal'); await snap('03-about');

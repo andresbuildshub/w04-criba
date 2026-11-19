@@ -1,6 +1,6 @@
 import { verificar, haySecreto } from '../../lib/firma'
-import { leerIntento, horaMX, minutos } from '../../lib/convocatorias'
-import { RUBRICA_VERSION } from '../../lib/muestra'
+import { leerIntento, horaMX, VENTANA_MIN } from '../../lib/convocatorias'
+import { RUBRICA_VERSION, CFDIS } from '../../lib/muestra'
 import Evento from '../Evento'
 import Link from 'next/link'
 
@@ -35,14 +35,15 @@ export default async function Verificar({ searchParams }) {
         <section className="space-y-3 rounded-2xl border border-emerald-400/40 bg-emerald-400/5 p-5">
           <p className="text-xl font-semibold text-emerald-200">Registrado por Criba el {horaMX(intento.entrega)}. Coincide.</p>
           <ul className="space-y-1 text-neutral-200">
-            <li>Muestra abierta con el enlace de <b>{intento.despacho}</b> · inició {horaMX(intento.inicio)} · entregó {horaMX(intento.entrega)} ({minutos(intento.inicio, intento.entrega)} min) · una sola sesión, un solo intento.</li>
+            <li>Muestra abierta con el enlace de <b>{intento.despacho}</b> · entregó dentro de la ventana de {VENTANA_MIN} minutos · una sola sesión, un solo intento.</li>
             <li>Encontró <b>{intento.aciertos.length} de 4</b>: {intento.aciertos.map(i => TIPO[i]).join('; ') || 'ninguno'}.</li>
             <li className={intento.omitidos.length ? 'text-amber-200' : ''}>Se le fue: <b>{intento.omitidos.length ? intento.omitidos.map(i => TIPO[i]).join('; ') : 'ninguno'}</b>.</li>
-            <li>Marcó de más (estaba bien): <b>{intento.falsos.length}</b>. {intento.aprobado ? 'Pasó' : 'No pasó'} la regla (3 o más, a lo sumo una de más).</li>
+            <li>Marcó de más (estaba bien): <b>{intento.falsos.length}</b>{intento.falsos.length > 0 && <>: {intento.falsos.map(id => { const f = CFDIS.find(c => c.id === id); return f ? `${f.folio}, ${f.concepto}` : id }).join('; ')}</>}. {intento.aprobado ? 'Pasó' : 'No pasó'} la regla (3 o más, a lo sumo una de más).</li>
             <li>Su mensaje al cliente cumplió {intento.cumplidos} de {intento.total} verificaciones de texto (reglas, no IA). Ayuda declarada: {ASIST[intento.asistencia] || intento.asistencia}.</li>
           </ul>
           <details className="rounded-lg border border-neutral-800 p-3 text-sm"><summary className="cursor-pointer">Lo que escribió al cliente (tal cual)</summary><p className="mt-2 whitespace-pre-wrap text-neutral-200">«{intento.mensaje}»</p></details>
-          <p className="text-sm text-neutral-400">Lo que esto NO dice: que esté certificada, que sea apta, ni cómo va a trabajar. Lo que sí: fue una sola sesión de 60 minutos con su enlace, y aquí está lo que se le fue. En la entrevista pídale que explique en voz alta justo esa factura.</p>
+          <p className="text-sm text-neutral-400">Lo que esto NO dice: que esté certificada, que sea apta, que lo escribió sola, ni cómo va a trabajar. Lo que sí: fue una sola sesión de 60 minutos con su enlace, y aquí está lo que se le fue. En la llamada pídale que explique en voz alta justo esa factura, y pregúntele cómo lo resolvió y qué usó.</p>
+          <p className="text-xs text-neutral-500">Esta pantalla es de una sola persona, y así se queda: Criba no pone a dos finalistas lado a lado ni muestra cuántos minutos tardó cada una. El tiempo también mide su teléfono, sus datos y sus interrupciones.</p>
         </section>
       )}
 

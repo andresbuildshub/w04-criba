@@ -10,7 +10,7 @@ if (!process.argv.includes("--conv")) (async () => {
   await p.goto(base + '/muestra');
   for (const f of ['F-77812','R-2201','C-1180','T-9001']) await p.getByLabel(`Marcar ${f} como mal clasificado`).first().check();
   const MENSAJE = 'Hola Don Julio, revisé las facturas de agosto y encontré cuatro cosas que corregir. La gasolina se pagó en efectivo y así no se deduce; favor de pagar combustible con tarjeta. La comida del restaurante no es deducible al cien por ciento, solo al 8.5. La laptop es un activo fijo, no un gasto; hay que reclasificarla y depreciar. Le pido que me confirme para hacer los ajustes antes de la declaración.';
-  await p.fill('#mensaje', MENSAJE); await p.click('text=Calificar mi revisión'); await p.waitForSelector('pre');
+  await p.fill('#mensaje', MENSAJE); await p.selectOption('#asistencia', 'consulte_fuentes'); await p.click('text=Calificar mi revisión'); await p.waitForSelector('pre');
   const pre = await p.locator('pre').innerText();
   ok(pre.indexOf('LO QUE ESCRIBIÓ LA CANDIDATA') < pre.indexOf('LO QUE SE MIDIÓ'), 'constancia: mensaje de la candidata ANTES del conteo');
   const firmado = /código [A-Z2-9]{4}-[A-Z2-9]{4}/.test(pre);
@@ -50,7 +50,7 @@ if (process.argv.includes('--conv')) (async () => {
   const est = await (await p.request.get(base + '/api/convocar?id=' + j.id)).json(); ok(Boolean(est.abierta) && !est.entregada, 'primer acceso abre la ventana');
   for (const f of ['F-77812','R-2201','C-1180','T-9001']) await p.getByLabel(`Marcar ${f} como mal clasificado`).first().check();
   await p.fill('#mensaje', 'Hola Don Julio, revisé las facturas de agosto y encontré cuatro cosas que corregir. La gasolina se pagó en efectivo y así no se deduce; favor de pagar combustible con tarjeta. La comida del restaurante no es deducible al cien por ciento, solo al 8.5. La laptop es un activo fijo, no un gasto; hay que reclasificarla y depreciar. Le pido que me confirme para hacer los ajustes.');
-  await p.click('text=Calificar mi revisión'); await p.waitForSelector('pre');
+  await p.selectOption('#asistencia', 'consulte_fuentes'); await p.click('text=Calificar mi revisión'); await p.waitForSelector('pre');
   const pre = await p.locator('pre').innerText();
   ok(/Abierta con el enlace de Despacho E2E/.test(pre) && /SE LE FUE: factura emitida a otro RFC/.test(pre), 'constancia registrada: despacho, sesión única, y cuál se le fue');
   ok(/Marcó de más \(estaba bien\): T-9001/.test(pre), 'constancia nombra el folio marcado de más');

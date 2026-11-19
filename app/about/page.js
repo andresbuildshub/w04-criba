@@ -75,8 +75,10 @@ export default function About() {
               <p className="mt-1"><b>{c.resultado}</b> a {fmt(c.precioPreguntado)} · finalistas: {c.finalistas} · se enteró: {c.semanaQueSeEntero}</p>
               <p className="mt-1 text-neutral-200">“{c.palabras}”</p>
               {c.razon && <p className="mt-1 text-neutral-300">Razón: {c.razon}</p>}
+              {c.correccionResultado && <p className="mt-1 text-rose-200">Corrección: {c.correccionResultado}</p>}
               <p className="mt-1 text-amber-200">Qué cambia: {c.queCambia}</p>
             </li>))}
+            <li className="text-xs text-neutral-400">La regla que dice qué cuenta como cada resultado se escribió antes de la conversación y está fechada en el repositorio: <a href="https://github.com/andresbuildshub/w04-criba/blob/main/lib/conversaciones.js" className="underline">lib/conversaciones.js</a>.</li>
           </ul>
         )}
       </section>
