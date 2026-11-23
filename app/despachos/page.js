@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Entrega from '../Entrega'
 import Llegada from '../Llegada'
 import Pasos from '../Pasos'
+import { QUE_MIRAR } from '../../lib/piezas'
 import { PRIMERA_LINEA, PROMESA, POSICION, NO_PROMETO, BASE } from '../../lib/piezas'
 import { DEMO_ENTREGA, DEMO_CLIENTE } from '../../lib/demo'
 
@@ -26,6 +27,10 @@ export default function Despachos() {
       <section className="space-y-3">
         <h2 className="text-xl font-semibold">Esto es lo que ve</h2>
         <p className="text-neutral-300">Una finalista que no existe hizo la muestra: 20 facturas ya clasificadas, 4 estaban mal. Así se lee su entrega. Con la suya verá estos mismos datos.</p>
+        <section aria-labelledby="que-mirar" className="rounded-2xl border border-amber-300/40 bg-amber-300/5 p-4">
+          <h2 id="que-mirar" className="font-semibold text-amber-200">Qué mirar, en este orden</h2>
+          <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-neutral-200">{QUE_MIRAR.map(m => <li key={m.que}><b>{m.que}</b> {m.para}</li>)}</ol>
+        </section>
         <Entrega e={DEMO_ENTREGA} cliente={DEMO_CLIENTE} />
         <p className="text-sm text-neutral-400">Siempre es una persona por pantalla. Criba no pone a dos finalistas lado a lado, no las ordena y no muestra cuántos minutos le tomó a cada una.</p>
         <p><Link href="/lectura" className="underline">Léala con calma y diga qué le preguntaría (2 minutos)</Link></p>

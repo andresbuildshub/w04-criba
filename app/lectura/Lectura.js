@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { registrar, fuenteActual } from '../../lib/registrar'
 import Pasos from '../Pasos'
+import { QUE_MIRAR } from '../../lib/piezas'
 
 // Lo que el socio elige o escribe aquí NO sale de su teléfono: al servidor solo viaja "alguien terminó la lectura" y el día.
 export default function Lectura({ t, noDice, children }) {
@@ -19,6 +20,11 @@ export default function Lectura({ t, noDice, children }) {
         <h1 className="text-3xl font-bold leading-tight">{t.titular}</h1>
         <p className="text-neutral-300">{t.entrada}</p>
       </header>
+
+      <section aria-labelledby="que-mirar" className="rounded-2xl border border-amber-300/40 bg-amber-300/5 p-4">
+        <h2 id="que-mirar" className="font-semibold text-amber-200">Qué mirar, en este orden</h2>
+        <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-neutral-200">{QUE_MIRAR.map(m => <li key={m.que}><b>{m.que}</b> {m.para}</li>)}</ol>
+      </section>
 
       {children}
 

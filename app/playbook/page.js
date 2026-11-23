@@ -140,6 +140,9 @@ export default async function Playbook() {
           {PRUEBA.envio ? (
             <div className="space-y-2 text-sm text-neutral-200">
               <p><b>Enviado el {PRUEBA.envio.dia}:</b> {PRUEBA.envio.tibios} mensajes tibios y {PRUEBA.envio.frios} en frío.</p>
+              {PRUEBA.envio.piezaA != null && <p>Pieza A a {PRUEBA.envio.piezaA}, Pieza B a {PRUEBA.envio.piezaB}. Contestaron por escrito {PRUEBA.envio.respuestas.length}; sin respuesta {PRUEBA.envio.sinRespuesta}.</p>}
+              {PRUEBA.envio.log && <p className="text-neutral-300">{PRUEBA.envio.log}</p>}
+              {PRUEBA.envio.contraLoEsperado && <p><b>Contra lo que esperaba:</b> {PRUEBA.envio.contraLoEsperado}</p>}
               {PRUEBA.envio.respuestas.length === 0 ? <p>Nadie contestó por escrito.</p> : <ul className="space-y-1">{PRUEBA.envio.respuestas.map((r, i) => <li key={i}>{r.rol} · {r.canal} · Pieza {r.pieza}: “{r.palabras}”</li>)}</ul>}
               <p className="text-amber-200">Qué me quedo y qué cambio: {PRUEBA.envio.queCambia}</p>
             </div>

@@ -105,3 +105,15 @@ test('bug del pase mecánico: el revisor lee texto anidado (opciones como objeto
   const reglas = revisarPieza(pieza, P.FUENTES).map(f => f.regla)
   assert.ok(reglas.includes('certeza') && reglas.includes('predicción de desempeño'), JSON.stringify(reglas))
 })
+
+test('"Qué mirar" (agregado tras la prueba real) pasa el revisor', () => {
+  assert.equal(P.QUE_MIRAR.length, 3)
+  for (const m of P.QUE_MIRAR) assert.deepEqual(revisarTexto(`${m.que} ${m.para}`), [], m.que)
+})
+
+test('resultados reales: roles, nunca nombres; sin correos ni teléfonos', () => {
+  const e = P.PRUEBA.envio
+  assert.ok(e && e.respuestas.length === 4 && e.tibios === e.piezaA + e.piezaB)
+  const txt = JSON.stringify(e)
+  for (const n of ['Ricardo', 'Mariana', 'Alejandro', 'Fernando', 'Gabriela', 'Daniela', 'Namnum', 'Samantha', 'Ginna', 'Mauricio']) assert.ok(!txt.includes(n), n)
+})
